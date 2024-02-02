@@ -2,8 +2,41 @@
 import { ref } from 'vue'
 const isDark = ref(false)
 const isClick = ref(false)
-</script>
 
+
+</script>
+<script>
+export default {
+  data() {
+    return {
+      audioContext: null,
+      oscillator: null,
+      pianoKeys: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C2'],
+    };
+  },
+  methods: {
+    playSound(note) {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      this.oscillator = this.audioContext.createOscillator();
+      this.oscillator.type = 'buzz2';
+      this.oscillator.frequency.setValueAtTime(this.noteToFrequency(note), this.audioContext.currentTime);
+      this.oscillator.connect(this.audioContext.destination);
+      this.oscillator.start();
+    },
+    stopSound() {
+      if (this.oscillator) {
+        this.oscillator.stop(this.audioContext.currentTime);
+        this.oscillator.disconnect();
+      }
+    },
+    noteToFrequency(note) {
+      const A4Frequency = 440; // Frequency of A4
+      const noteDistance = this.pianoKeys.indexOf(note) - this.pianoKeys.indexOf('A');
+      return A4Frequency * Math.pow(2, noteDistance / 12);
+    },
+  },
+};
+</script>
 <template>
   <div :class="isDark ? 'bg-white' : 'bg-slate-600'" class="w-full h-screen">
     <div class="flex bg-gradient-to-b from-gray-400 to-white-500">
@@ -50,7 +83,36 @@ const isClick = ref(false)
       @click="isClick = !isClick"
       class="fa-solid fa-circle-info fixed bottom-0 right-0 fa-2x m-2 cursor-pointer text-gray-500 hover:text-gray-700"
     ></i>
+    
+    <div>
+    <div
+      v-for="note in pianoKeys"
+      :key="note"
+      @mousedown="playSound(note)"
+      @mouseup="stopSound"
+      class="piano-key"
+    >
+      {{ note }}
+    </div>
   </div>
+  </div>
+  
 </template>
 
-<style scoped></style>
+<style scoped>
+.piano-key {
+  width: 50px;
+  height: 150px;
+  border: 1px solid #000;
+  display: inline-block;
+  text-align: center;
+  line-height: 150px;
+  cursor: pointer;
+  margin-right: 2px;
+  user-select: none;
+}
+
+.piano-key:active {
+  background-color: #ddd;
+}
+</style>
