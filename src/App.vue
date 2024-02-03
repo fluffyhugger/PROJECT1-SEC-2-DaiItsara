@@ -1,41 +1,31 @@
 <script setup>
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 const isDark = ref(false)
 const isClick = ref(false)
-
-
-</script>
-<script>
-export default {
-  data() {
-    return {
-      audioContext: null,
-      oscillator: null,
-      pianoKeys: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
-    };
+const data = ref({audioContext: null, oscillator: null, pianoKeys: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C2']})
+const methods = reactive({
+  playSound(note) {
+    this.audioContext = new (window.AudioContext)();
+    this.oscillator = this.audioContext.createOscillator();
+    this.oscillator.type = 'shine';
+    this.oscillator.frequency.setValueAtTime(this.noteToFrequency(note), this.audioContext.currentTime);
+    this.oscillator.connect(this.audioContext.destination);
+    this.oscillator.start();
   },
-  methods: {
-    playSound(note) {
-      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      this.oscillator = this.audioContext.createOscillator();
-      this.oscillator.type = 'sine';
-      this.oscillator.frequency.setValueAtTime(this.noteToFrequency(note), this.audioContext.currentTime);
-      this.oscillator.connect(this.audioContext.destination);
-      this.oscillator.start();
-    },
-    stopSound() {
-      if (this.oscillator) {
-        this.oscillator.stop(this.audioContext.currentTime);
-        this.oscillator.disconnect();
-      }
-    },
-    noteToFrequency(note) {
-      const A4Frequency = 440; // Frequency of A4
-      const noteDistance = this.pianoKeys.indexOf(note) - this.pianoKeys.indexOf('A');
-      return A4Frequency * Math.pow(2, noteDistance / 12);
-    },
+  stopSound() {
+    if (this.oscillator) {
+      this.oscillator.stop(this.audioContext.currentTime);
+      this.oscillator.disconnect();
+    }
   },
-};
+  noteToFrequency(note) {
+    const A4Frequency = 440; // Frequency of A4
+    const noteDistance = data.value.pianoKeys.indexOf(note) - data.value.pianoKeys.indexOf('A');
+    return A4Frequency * Math.pow(2, noteDistance / 12);
+  }
+})
+    
+
 </script>
 <template>
   <div :class="isDark ? 'bg-white' : 'bg-slate-600'" class="w-full h-screen">
@@ -83,14 +73,23 @@ export default {
       @click="isClick = !isClick"
       class="fa-solid fa-circle-info fixed bottom-0 right-0 fa-2x m-2 cursor-pointer text-gray-500 hover:text-gray-700"
     ></i>
+  
+    <div class="w-screen justify-center flex mt-4">
+      <select>
+        <option value="triangle"> Triangle </option> 
+        <option value="square"> Square </option> 
+        <option value="sine"> Sine </option> 
+        <option value="sawtooth"> Sawtooth </option>
+      </select>
+    </div>
     
     <div>
     <div
-      v-for="note in pianoKeys"
+      v-for="note in data.pianoKeys"
       :key="note"
-      @mousedown="playSound(note)"
-      @mouseup="stopSound"
-      class="piano-key"
+      @mousedown="methods.playSound(note)"
+      @mouseup="methods.stopSound"
+      class="piano-key w-screen justify-center flex mt-4"
     >
       {{ note }}
     </div>
