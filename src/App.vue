@@ -54,23 +54,14 @@ export default {
 }
 </script>
 <template>
-  <div class="bg-sand-shore w-full h-screen bg-cover">
-    <!-- <div :class="isDark ? 'bg-white' : 'bg-slate-600'" class="w-full h-screen"> -->
+  <div class="bg-beach w-full h-screen bg-cover">
     <div class="flex justify-center">
-      <!--bg-gradient-to-b from-gray-400 to-white-500 -->
       <img
-        src="./assets/font2.png"
+        src="./assets/logo.png"
         alt=""
         class="mt-4 ml-5"
         style="width: 150px"
       />
-      <!-- <div class="flex-grow"></div>
-    <input
-      @click="isDark = !isDark"
-      type="checkbox"
-      class="toggle h-8 mt-4 mr-3"
-      checked
-    /> -->
     </div>
     <div
       v-if="isClick"
