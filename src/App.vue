@@ -1,7 +1,10 @@
 <script setup>
 import { ref } from 'vue'
-const isDark = ref(false)
 const isClick = ref(false)
+const theKey = ref([])
+const checkKey = function (key) {
+  theKey.value += key
+}
 </script>
 <script>
 export default {
@@ -96,6 +99,7 @@ export default {
       class="fa-solid fa-circle-info fixed bottom-0 right-0 fa-2x m-2 cursor-pointer text-gray-500 hover:text-gray-700"
     ></i>
     <!-- Piano Section -->
+    {{ theKey }}
     <div class="flex justify-center absolute top-96">
       <div class="w-3/6">
         <div
@@ -103,6 +107,7 @@ export default {
           :key="note"
           @mousedown="playSound(note)"
           @mouseup="stopSound"
+          @click="checkKey(note)"
           class="piano-key mt-5"
         >
           {{ note }}
