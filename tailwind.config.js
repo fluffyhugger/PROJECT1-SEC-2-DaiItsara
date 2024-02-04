@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        beach: "url('./src/assets/sea-background.png')",
+        'sand-shore': "url('./src/assets/background.png')",
       },
     },
   },

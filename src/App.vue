@@ -1,7 +1,42 @@
 <script setup>
 import { ref } from 'vue'
-const isDark = ref(false)
 const isClick = ref(false)
+const theKey = ref([])
+const checkKey = function (key) {
+  if (theKey.value.length < 18) {
+    theKey.value += key
+  } else {
+    theKey.value = []
+  }
+}
+const getNoteColor = (note) => {
+  switch (note) {
+    case 'C':
+      return '#F9EFDB'
+    case 'C#':
+      return '#EBD9B4'
+    case 'D':
+      return '#9DBC98'
+    case 'D#':
+      return '#638889'
+    case 'E':
+      return '#D9EDBF'
+    case 'F':
+      return '#FFB996'
+    case 'F#':
+      return '#FFCF81'
+    case 'G':
+      return '#FDFFAB'
+    case 'G#':
+      return '#FDF7E4'
+    case 'A':
+      return '#FAEED1'
+    case 'A#':
+      return '#DED0B6'
+    case 'B':
+      return '#BBAB8C'
+  }
+}
 </script>
 <script>
 export default {
@@ -54,15 +89,18 @@ export default {
 }
 </script>
 <template>
-  <div class="bg-beach w-full h-screen bg-cover">
+  <!-- This is header นะจ้า -->
+  <div class="bg-sand-shore w-full h-screen bg-cover">
     <div class="flex justify-center">
       <img
-        src="./assets/logo.png"
+        src="./assets/font2.png"
         alt=""
         class="mt-4 ml-5"
         style="width: 150px"
       />
     </div>
+
+    <!-- This is tutorial section Naja -->
     <div
       v-if="isClick"
       class="relative max-w-xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg"
@@ -92,6 +130,14 @@ export default {
       @click="isClick = !isClick"
       class="fa-solid fa-circle-info fixed bottom-0 right-0 fa-2x m-2 cursor-pointer text-gray-500 hover:text-gray-700"
     ></i>
+    <!-- Note press showing -->
+    <div class="flex justify-center text-center" style="margin-top: 13rem">
+      <div class="w-1/6 bg-white bg-opacity-10 mx-auto p-5">
+        {{ theKey }}
+      </div>
+    </div>
+
+    <!-- Piano Section -->
     <div class="flex justify-center absolute top-96">
       <div class="w-3/6">
         <div
@@ -99,6 +145,8 @@ export default {
           :key="note"
           @mousedown="playSound(note)"
           @mouseup="stopSound"
+          @click="checkKey(note)"
+          :style="{ backgroundColor: getNoteColor(note) }"
           class="piano-key mt-5"
         >
           {{ note }}
@@ -113,16 +161,18 @@ export default {
 .piano-key {
   width: 100px;
   height: 100px;
-  border: 1px solid #000;
   display: inline-block;
   text-align: center;
   line-height: 150px;
   cursor: pointer;
   margin-right: 20px;
   user-select: none;
+  color: #ffff;
+  font-family: 'Protest Riot', sans-serif;
 }
 
 .piano-key:active {
   background-color: #ddd;
+  border: 2px solid red;
 }
 </style>
