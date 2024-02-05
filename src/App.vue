@@ -1,9 +1,48 @@
 <script setup>
 import { ref } from 'vue'
-const isDark = ref(false)
+import c3 from './assets/PianoNotes/c3.mp3'
 const isClick = ref(false)
-
-
+const theKey = ref([])
+const checkKey = function (key) {
+  if (theKey.value.length < 18) {
+    theKey.value += key
+  } else {
+    theKey.value = []
+  }
+}
+const getNoteColor = (note) => {
+  switch (note) {
+    case 'C':
+      return '#F9EFDB'
+    case 'C#':
+      return '#EBD9B4'
+    case 'D':
+      return '#9DBC98'
+    case 'D#':
+      return '#638889'
+    case 'E':
+      return '#D9EDBF'
+    case 'F':
+      return '#FFB996'
+    case 'F#':
+      return '#FFCF81'
+    case 'G':
+      return '#FDFFAB'
+    case 'G#':
+      return '#FDF7E4'
+    case 'A':
+      return '#FAEED1'
+    case 'A#':
+      return '#DED0B6'
+    case 'B':
+      return '#BBAB8C'
+  }
+}
+// play the
+const playPianoSound = () => {
+  const audio = new Audio(c3)
+  audio.play()
+}
 </script>
 <script>
 export default {
@@ -11,49 +50,58 @@ export default {
     return {
       audioContext: null,
       oscillator: null,
-      pianoKeys: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C2'],
-    };
+      pianoKeys: [
+        'C',
+        'C#',
+        'D',
+        'D#',
+        'E',
+        'F',
+        'F#',
+        'G',
+        'G#',
+        'A',
+        'A#',
+        'B'
+      ],
+    }
   },
   methods: {
     playSound(note) {
-      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      this.oscillator = this.audioContext.createOscillator();
-      this.oscillator.type = 'buzz2';
-      this.oscillator.frequency.setValueAtTime(this.noteToFrequency(note), this.audioContext.currentTime);
-      this.oscillator.connect(this.audioContext.destination);
-      this.oscillator.start();
+      this.audioContext = new (window.AudioContext ||
+        window.webkitAudioContext)()
+      this.oscillator = this.audioContext.createOscillator()
+      this.oscillator.type = 'sine'
+      this.oscillator.frequency.setValueAtTime(
+        this.noteToFrequency(note),
+        this.audioContext.currentTime
+      )
+      this.oscillator.connect(this.audioContext.destination)
+      this.oscillator.start()
     },
     stopSound() {
       if (this.oscillator) {
-        this.oscillator.stop(this.audioContext.currentTime);
-        this.oscillator.disconnect();
+        this.oscillator.stop(this.audioContext.currentTime)
+        this.oscillator.disconnect()
       }
     },
     noteToFrequency(note) {
-      const A4Frequency = 440; // Frequency of A4
-      const noteDistance = this.pianoKeys.indexOf(note) - this.pianoKeys.indexOf('A');
-      return A4Frequency * Math.pow(2, noteDistance / 12);
+      const A4Frequency = 440 // Frequency of A4
+      const noteDistance =
+        this.pianoKeys.indexOf(note) - this.pianoKeys.indexOf('A')
+      return A4Frequency * Math.pow(2, noteDistance / 12)
     },
   },
-};
+}
 </script>
 <template>
-  <div :class="isDark ? 'bg-white' : 'bg-slate-600'" class="w-full h-screen">
-    <div class="flex bg-gradient-to-b from-gray-400 to-white-500">
-      <img
-        src="./assets/Logo.png"
-        alt=""
-        class="w-16 h-14 mt-1 rotate-60 ml-5"
-      />
-      <img src="./assets/font.png" alt="" class="w-16 h-10 mt-4 ml-5" />
-      <div class="flex-grow"></div>
-      <input
-        @click="isDark = !isDark"
-        type="checkbox"
-        class="toggle h-8 mt-4 mr-3"
-        checked
-      />
+  <!-- This is header นะจ้า -->
+  <div class="bg-sand-shore w-full h-screen bg-cover">
+    <div class="flex justify-center">
+      <img src="./assets/font2.png" alt="" class="mt-4 ml-5" style="width: 150px" />
     </div>
+
+    <!-- This is tutorial section Naja -->
     <div
       v-if="isClick"
       class="relative max-w-xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg"
@@ -83,36 +131,76 @@ export default {
       @click="isClick = !isClick"
       class="fa-solid fa-circle-info fixed bottom-0 right-0 fa-2x m-2 cursor-pointer text-gray-500 hover:text-gray-700"
     ></i>
-    
-    <div>
-    <div
-      v-for="note in pianoKeys"
-      :key="note"
-      @mousedown="playSound(note)"
-      @mouseup="stopSound"
-      class="piano-key"
-    >
-      {{ note }}
+
+    <!-- MIDI section -->
+    <div class="flex flex-col items-center mt-8">
+      <!-- Note press showing -->
+      <div class="w-1/6 bg-white bg-opacity-10 m-5 p-2">
+        {{ theKey }}
+      </div>
+
+      <!-- sound pad Section -->
+      <div class="w-3/6">
+        <div
+          v-for="note in pianoKeys"
+          :key="note"
+          @mousedown="playSound(note)"
+          @mouseup="stopSound"
+          @click="checkKey(note)"
+          :style="{ backgroundColor: getNoteColor(note) }"
+          class="piano-key mt-2"
+        >
+          {{ note }}
+        </div>
+      </div>
+
+      <!-- piano wedge section -->
+      <div class="w-3/6 flex justify-between">
+        <div
+          v-for="note in pianoKeys"
+          :key="note"
+          @mousedown="playSound(note)"
+          @mouseup="stopSound"
+          @click="checkKey(note)"
+          :style="{ backgroundColor: getNoteColor(note) }"
+          class="piano-key piano-wedge-key mt-2"
+        >
+          {{ note }}
+        </div>
+      </div>
     </div>
+
+    <div
+      id="c-3-note"
+      class="flex justify-center bg-blue-100 w-1/12 p-auto"
+      @click="playPianoSound"
+    >
+      c3
+    </div>
+
   </div>
-  </div>
-  
 </template>
 
 <style scoped>
 .piano-key {
-  width: 50px;
-  height: 150px;
-  border: 1px solid #000;
+  width: 80px; /* Adjusted button size for sound pad section */
+  height: 80px; /* Adjusted button size */
   display: inline-block;
   text-align: center;
-  line-height: 150px;
+  line-height: 80px; /* Adjusted button size */
   cursor: pointer;
-  margin-right: 2px;
   user-select: none;
+  color: #ffff;
+  font-family: 'Protest Riot', sans-serif;
 }
 
 .piano-key:active {
   background-color: #ddd;
+  border: 2px solid red;
+}
+
+.piano-wedge-key {
+  width: 40px; /* Adjusted button size for piano wedge section */
 }
 </style>
+
