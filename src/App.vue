@@ -38,7 +38,7 @@ const getNoteColor = (note) => {
       return '#BBAB8C'
   }
 }
-// play the
+// test piano sound
 const playPianoSound = () => {
   const audio = new Audio(c3)
   audio.play()
@@ -183,11 +183,11 @@ export default {
 
 <style scoped>
 .piano-key {
-  width: 80px; /* Adjusted button size for sound pad section */
-  height: 80px; /* Adjusted button size */
+  width: 80px;
+  height: 80px;
   display: inline-block;
   text-align: center;
-  line-height: 80px; /* Adjusted button size */
+  line-height: 80px;
   cursor: pointer;
   user-select: none;
   color: #ffff;
@@ -200,7 +200,7 @@ export default {
 }
 
 .piano-wedge-key {
-  width: 40px; /* Adjusted button size for piano wedge section */
+  width: 40px;
 }
 </style>
 
