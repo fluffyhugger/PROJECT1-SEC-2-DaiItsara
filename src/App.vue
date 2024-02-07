@@ -58,6 +58,8 @@ export default {
         'A#',
         'B',
       ],
+      isButtonClickSoundPlaying: false,
+      buttonClickAudio: new Audio('/src/assets/youtube_ymJIXzvDvj4_audio.mp3'),
     }
   },
   methods: {
@@ -84,6 +86,18 @@ export default {
       const noteDistance =
         this.pianoKeys.indexOf(note) - this.pianoKeys.indexOf('A')
       return A4Frequency * Math.pow(2, noteDistance / 12)
+    },
+    toggleMetronome() {
+      if (this.isButtonClickSoundPlaying) {
+        // If the sound is currently playing, stop it
+        this.buttonClickAudio.pause()
+        this.isButtonClickSoundPlaying = false
+      } else {
+        // If the sound is not playing, start it
+        this.buttonClickAudio.currentTime = 0 // Reset the audio to the beginning
+        this.buttonClickAudio.play()
+        this.isButtonClickSoundPlaying = true
+      }
     },
   },
 }
@@ -131,14 +145,33 @@ export default {
       class="fa-solid fa-circle-info fixed bottom-0 right-0 fa-2x m-2 cursor-pointer text-gray-500 hover:text-gray-700"
     ></i>
     <!-- Note press showing -->
-    <div class="flex justify-center text-center" style="margin-top: 13rem">
+    <div
+      :class="isClick ? 'hidden' : ''"
+      class="flex justify-center text-center"
+      style="margin-top: 5rem"
+    >
       <div class="w-1/6 bg-white bg-opacity-10 mx-auto p-5">
-        {{ theKey }}
+        <span class="note">
+          {{ theKey }}
+        </span>
       </div>
     </div>
 
+    <!-- Metro-->
+    <div>
+      <button
+        @click="toggleMetronome"
+        class="fixed bottom-0 right-10 p-2 bg-slate-500 text-white rounded-full cursor-pointer hover:bg-slate-700"
+      >
+        {{ isButtonClickSoundPlaying ? 'Stop Metronome' : 'Start Metronome' }}
+      </button>
+    </div>
+
     <!-- Piano Section -->
-    <div class="flex justify-center absolute top-96">
+    <div
+      :class="isClick ? 'hidden' : ''"
+      class="flex justify-center absolute top-56"
+    >
       <div class="w-3/6">
         <div
           v-for="note in pianoKeys"
@@ -147,7 +180,7 @@ export default {
           @mouseup="stopSound"
           @click="checkKey(note)"
           :style="{ backgroundColor: getNoteColor(note) }"
-          class="piano-key mt-5"
+          class="piano-key mt-4"
         >
           {{ note }}
         </div>
@@ -169,6 +202,10 @@ export default {
   user-select: none;
   color: #ffff;
   font-family: 'Protest Riot', sans-serif;
+}
+.note {
+  font-family: 'Protest Riot', sans-serif;
+  color: #ffff;
 }
 
 .piano-key:active {
