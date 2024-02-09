@@ -37,6 +37,32 @@ const getNoteColor = (note) => {
       return '#BBAB8C'
   }
 }
+const pianoKey = [
+  'C',
+  'C#',
+  'D',
+  'D#',
+  'E',
+  'F',
+  'F#',
+  'G',
+  'G#',
+  'A',
+  'A#',
+  'B',
+  'C2',
+  'C#2',
+  'D2',
+  'D#2',
+  'E2',
+  'F2',
+  'F#2',
+  'G2',
+  'G#2',
+  'A2',
+  'A#2',
+  'B2',
+]
 </script>
 <script>
 export default {
@@ -172,18 +198,31 @@ export default {
       :class="isClick ? 'hidden' : ''"
       class="flex justify-center absolute top-56"
     >
-      <div class="w-3/6">
-        <div
-          v-for="note in pianoKeys"
-          :key="note"
-          @mousedown="playSound(note)"
-          @mouseup="stopSound"
-          @click="checkKey(note)"
-          :style="{ backgroundColor: getNoteColor(note) }"
-          class="piano-key mt-4"
-        >
-          {{ note }}
+      <div class="w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
+        <div class="flex flex-wrap justify-center">
+          <div
+            v-for="trap in pianoKeys"
+            :key="trap"
+            @mousedown="playSound(trap)"
+            @mouseup="stopSound"
+            @click="checkKey(trap)"
+            :style="{ backgroundColor: getNoteColor(trap) }"
+            class="trap-key mb-4 md:w-1/6 lg:w-1/6 xl:w-1/6"
+          >
+            {{ trap }}
+          </div>
         </div>
+      </div>
+    </div>
+    <!-- Piano Section -->
+    <div class="absolute bottom-24 left-0 w-full text-center">
+      <div
+        @click="console.log(piano)"
+        v-for="piano in pianoKey"
+        :key="piano"
+        :class="{ 'piano-key': true, 'piano-key-black': piano.includes('#') }"
+      >
+        {{ piano }}
       </div>
     </div>
   </div>
@@ -191,7 +230,7 @@ export default {
 </template>
 
 <style scoped>
-.piano-key {
+.trap-key {
   width: 100px;
   height: 100px;
   display: inline-block;
@@ -208,8 +247,39 @@ export default {
   color: #ffff;
 }
 
-.piano-key:active {
+.trap-key:active {
   background-color: #ddd;
   border: 2px solid red;
+}
+
+.piano-key {
+  width: 50px;
+  height: 150px;
+  display: inline-block;
+  text-align: center;
+  line-height: 270px;
+  cursor: pointer;
+  user-select: none;
+  background-color: #ffff;
+  color: black;
+  font-size: 12px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  font-family: 'Protest Riot', sans-serif;
+}
+.piano-key:active {
+  border: 2px solid black;
+}
+.piano-key-black {
+  width: 28px;
+  z-index: 1;
+  line-height: 20px;
+  margin: 0 -10px 0 -10px;
+  height: 80px;
+  border: 1px solid #000;
+  border-radius: 0 0 5px 5px;
+  background-color: #363636;
+  position: absolute;
+  color: #ffff;
 }
 </style>
