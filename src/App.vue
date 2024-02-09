@@ -299,6 +299,17 @@ export default {
         </div>
       </div>
     </div>
+    <!-- piano noey jaaa-->
+    <div id="piano" class="flex justify-center">
+      <div
+        v-for="(note, index) in notes"
+        :key="index"
+        :class="{ 'piano-key': true, 'black-key': isBlackKey(note) }"
+        @click="playSound(note)"
+      >
+        {{ note }}
+      </div>
+    </div>
   </div>
   <!-- </div> -->
 </template>
