@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import c3 from './assets/PianoNotes/c3.mp3'
 const isClick = ref(false)
 const theKey = ref([])
 const checkKey = function (key) {
@@ -38,11 +37,50 @@ const getNoteColor = (note) => {
       return '#BBAB8C'
   }
 }
-// test piano sound
-const playPianoSound = () => {
-  const audio = new Audio(c3)
-  audio.play()
-}
+const pianoKey = [
+  'C3',
+  'C3#',
+  'D3',
+  'D3#',
+  'E3',
+  'F3',
+  'F3#',
+  'G3',
+  'G3#',
+  'A3',
+  'A3#',
+  'B3',
+  'C4',
+  'C4#',
+  'D4',
+  'D4#',
+  'E4',
+  'F4',
+  'F4#',
+  'G4',
+  'G4#',
+  'A4',
+  'A4#',
+  'B4',
+]
+
+const getAudioPath = (note) => {
+  const path = `../PianoNotes/${note}.mp3`;
+  console.log("Audio Path:", path);
+  return path;
+};
+
+const playPianoSound = (note) => {
+  const audioPath = getAudioPath(note);
+  try {
+    const audio = new Audio(audioPath);
+    audio.play();
+    console.log("Audio played successfully");
+  } catch (error) {
+    console.error("Error playing audio:", error);
+  }
+};
+
 </script>
 <script>
 export default {
@@ -62,8 +100,10 @@ export default {
         'G#',
         'A',
         'A#',
-        'B'
+        'B',
       ],
+      isButtonClickSoundPlaying: false,
+      buttonClickAudio: new Audio('/src/assets/youtube_ymJIXzvDvj4_audio.mp3'),
     }
   },
   methods: {
@@ -91,6 +131,18 @@ export default {
         this.pianoKeys.indexOf(note) - this.pianoKeys.indexOf('A')
       return A4Frequency * Math.pow(2, noteDistance / 12)
     },
+    toggleMetronome() {
+      if (this.isButtonClickSoundPlaying) {
+        // If the sound is currently playing, stop it
+        this.buttonClickAudio.pause()
+        this.isButtonClickSoundPlaying = false
+      } else {
+        // If the sound is not playing, start it
+        this.buttonClickAudio.currentTime = 0 // Reset the audio to the beginning
+        this.buttonClickAudio.play()
+        this.isButtonClickSoundPlaying = true
+      }
+    },
   },
 }
 </script>
@@ -98,7 +150,12 @@ export default {
   <!-- This is header นะจ้า -->
   <div class="bg-sand-shore w-full h-screen bg-cover">
     <div class="flex justify-center">
-      <img src="./assets/font2.png" alt="" class="mt-4 ml-5" style="width: 150px" />
+      <img
+        src="./assets/font2.png"
+        alt=""
+        class="mt-4 ml-5"
+        style="width: 150px"
+      />
     </div>
 
     <!-- This is tutorial section Naja -->
@@ -131,76 +188,116 @@ export default {
       @click="isClick = !isClick"
       class="fa-solid fa-circle-info fixed bottom-0 right-0 fa-2x m-2 cursor-pointer text-gray-500 hover:text-gray-700"
     ></i>
-
-    <!-- MIDI section -->
-    <div class="flex flex-col items-center mt-8">
-      <!-- Note press showing -->
-      <div class="w-1/6 bg-white bg-opacity-10 m-5 p-2">
-        {{ theKey }}
-      </div>
-
-      <!-- sound pad Section -->
-      <div class="w-3/6">
-        <div
-          v-for="note in pianoKeys"
-          :key="note"
-          @mousedown="playSound(note)"
-          @mouseup="stopSound"
-          @click="checkKey(note)"
-          :style="{ backgroundColor: getNoteColor(note) }"
-          class="piano-key mt-2"
-        >
-          {{ note }}
-        </div>
-      </div>
-
-      <!-- piano wedge section -->
-      <div class="w-3/6 flex justify-between">
-        <div
-          v-for="note in pianoKeys"
-          :key="note"
-          @mousedown="playSound(note)"
-          @mouseup="stopSound"
-          @click="checkKey(note)"
-          :style="{ backgroundColor: getNoteColor(note) }"
-          class="piano-key piano-wedge-key mt-2"
-        >
-          {{ note }}
-        </div>
-      </div>
-    </div>
-
+    <!-- Note press showing -->
     <div
-      id="c-3-note"
-      class="flex justify-center bg-blue-100 w-1/12 p-auto"
-      @click="playPianoSound"
+      :class="isClick ? 'hidden' : ''"
+      class="flex justify-center text-center"
+      style="margin-top: 5rem"
     >
-      c3
+      <div class="w-1/6 bg-white bg-opacity-10 mx-auto p-5">
+        <span class="note">
+          {{ theKey }}
+        </span>
+      </div>
     </div>
 
+    <!-- Metro-->
+    <div>
+      <button
+        @click="toggleMetronome"
+        class="fixed bottom-0 right-10 p-2 bg-slate-500 text-white rounded-full cursor-pointer hover:bg-slate-700"
+      >
+        {{ isButtonClickSoundPlaying ? 'Stop Metronome' : 'Start Metronome' }}
+      </button>
+    </div>
+
+    <!-- soundpad Section -->
+    <div
+      :class="isClick ? 'hidden' : ''"
+      class="flex justify-center absolute top-56"
+    >
+      <div class="w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
+        <div class="flex flex-wrap justify-center">
+          <div
+            v-for="trap in pianoKeys"
+            :key="trap"
+            @mousedown="playSound(trap)"
+            @mouseup="stopSound"
+            @click="checkKey(trap)"
+            :style="{ backgroundColor: getNoteColor(trap) }"
+            class="trap-key mb-4 md:w-1/6 lg:w-1/6 xl:w-1/6"
+          >
+            {{ trap }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Piano Section -->
+    <div class="absolute bottom-24 left-0 w-full text-center">
+      <div
+        @click="playPianoSound(piano)"
+        v-for="piano in pianoKey"
+        :key="piano"
+        :class="{ 'piano-key': true, 'piano-key-black': piano.includes('#') }"
+      >
+        {{ piano }}
+      </div>
+    </div>
   </div>
+  <!-- </div> -->
 </template>
 
 <style scoped>
-.piano-key {
-  width: 80px;
-  height: 80px;
+.trap-key {
+  width: 100px;
+  height: 100px;
   display: inline-block;
   text-align: center;
-  line-height: 80px;
+  line-height: 150px;
   cursor: pointer;
+  margin-right: 20px;
   user-select: none;
   color: #ffff;
   font-family: 'Protest Riot', sans-serif;
 }
+.note {
+  font-family: 'Protest Riot', sans-serif;
+  color: #ffff;
+}
 
-.piano-key:active {
+.trap-key:active {
   background-color: #ddd;
   border: 2px solid red;
 }
 
-.piano-wedge-key {
-  width: 40px;
+.piano-key {
+  width: 50px;
+  height: 150px;
+  display: inline-block;
+  text-align: center;
+  line-height: 270px;
+  cursor: pointer;
+  user-select: none;
+  background-color: #ffff;
+  color: black;
+  font-size: 12px;
+  border: 1px solid #000;
+  border-radius: 8px;
+  font-family: 'Protest Riot', sans-serif;
+}
+.piano-key:active {
+  border: 2px solid black;
+}
+.piano-key-black {
+  width: 28px;
+  z-index: 1;
+  line-height: 20px;
+  margin: 0 -10px 0 -10px;
+  height: 80px;
+  border: 1px solid #000;
+  border-radius: 0 0 5px 5px;
+  background-color: #363636;
+  position: absolute;
+  color: #ffff;
 }
 </style>
-
