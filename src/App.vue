@@ -47,24 +47,22 @@ const toggleInfo = () => {
       <source src="./assets/pastelsea.mp4" type="video/webm" />
     </video>
 
-    <section id="trap">
-      <div class="flex justify-center absolute top-56">
-        <div class="w-full md:w-3/4 lg:w-2/3 xl:w-1/2">
-          <div class="flex flex-wrap justify-center">
-            <div
-              v-for="trap in TrapKeys"
-              :key="trap"
-              @mousedown="playTrap(trap)"
-              @mouseup="stopSound" 
-              :style="{ backgroundColor: getNoteColor(trap) }"
-              class="trap-key mb-4 md:w-1/6 lg:w-1/6 xl:w-1/6"
-            >
-              {{ trap }}
-            </div>
-          </div>
+    <section id="trap" class="trap-section">
+    <div class="flex justify-center">
+      <div class="trap-container">
+        <div
+          v-for="trap in TrapKeys"
+          :key="trap"
+          @mousedown="playTrap(trap)"
+          @mouseup="stopSound" 
+          :style="{ backgroundColor: getNoteColor(trap) }"
+          class="trap-key"
+        >
+          {{ trap }}
         </div>
       </div>
-    </section>
+    </div>
+  </section>
     <section
       id="piano"
       class="flex justify-center"
@@ -181,5 +179,47 @@ const toggleInfo = () => {
 }
 .piano-key:hover {
   background-color: lightgray;
+}
+.trap-section {
+  /* Adjust as needed */
+  padding: 20px;
+}
+
+.trap-container {
+  /* Adjust as needed */
+  max-width: 1200px;
+  width: 100%;
+}
+
+.trap-key {
+  width: calc(100% / 6); /* Adjust the number of keys per row */
+  max-width: 100px; /* Adjust as needed */
+  height: 100px; /* Adjust as needed */
+  display: inline-block;
+  text-align: center;
+  line-height: 100px; /* Adjust as needed */
+  cursor: pointer;
+  margin: 10px; /* Adjust as needed */
+  user-select: none;
+  color: #ffff;
+  font-family: "Protest Riot", sans-serif;
+}
+
+@media (max-width: 768px) {
+  .trap-key {
+    width: calc(100% / 4); /* Adjust the number of keys per row */
+    max-width: 80px; /* Adjust as needed */
+    height: 80px; /* Adjust as needed */
+    line-height: 80px; /* Adjust as needed */
+  }
+}
+
+@media (max-width: 480px) {
+  .trap-key {
+    width: calc(100% / 3); /* Adjust the number of keys per row */
+    max-width: 60px; /* Adjust as needed */
+    height: 60px; /* Adjust as needed */
+    line-height: 60px; /* Adjust as needed */
+  }
 }
 </style>
