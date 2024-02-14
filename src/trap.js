@@ -13,7 +13,16 @@ export function createAudioContext() {
     );
   }
 }
-export const playTrap = (note) => {
+
+export function setOscillatorType(type) {
+  if (oscillator) {
+    oscillator.type = type;
+  }
+}
+
+export const playTrap = (note, selectedOscillatorType) => { //ad oscillator type parameter
+    console.log("Playing note:", note);
+    console.log("Selected oscillator type:", selectedOscillatorType.value);
     if (!audioContext) {
       // If AudioContext is not initialized, create it
       createAudioContext();
@@ -22,8 +31,10 @@ export const playTrap = (note) => {
     if (audioContext.state === "suspended") {
       audioContext.resume();
     }
+
+
   oscillator = audioContext.createOscillator();
-  oscillator.type = "sine";
+  oscillator.type = selectedOscillatorType.value;
   oscillator.frequency.setValueAtTime(
     noteToFrequency(note),
     audioContext.currentTime

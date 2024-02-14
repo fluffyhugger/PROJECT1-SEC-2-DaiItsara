@@ -26,8 +26,20 @@ const {
   handleKeyUp,
   handleClick,
 } = piano;
-const {  playTrap, stopSound, noteToFrequency, getNoteColor,oscillator } =
+const {  getNoteColor, playTrap, stopSound, noteToFrequency  } =
   trap;
+
+// Oscillator type
+const selectedOscillatorType = ref("sine"); //default value
+
+// change type
+const changeOscillatorType = () => {
+  trap.setOscillatorType(selectedOscillatorType.value);
+};
+
+const handleTrapMouseDown = (trap) => {
+  playTrap(trap, selectedOscillatorType);
+};
 
 /* part how to play  */
 const showInfo = ref(false);
@@ -48,12 +60,25 @@ const toggleInfo = () => {
     </video>
 
     <section id="trap" class="trap-section">
+
+    <!-- UI for selecting oscillator type -->
+    <div class="oscillator-mode mb-6 flex justify-center">
+        <label for="oscillator-type" class="text-white">Select Oscillator Type:</label>
+        <select v-model="selectedOscillatorType" @change="changeOscillatorType"
+        class="p-2 rounded-md bg-gray-800 text-white">
+          <option value="sine">Sine</option>
+          <option value="square">Square</option>
+          <option value="sawtooth">Sawtooth</option>
+          <option value="triangle">Triangle</option>
+        </select>
+      </div>
+
     <div class="flex justify-center">
       <div class="trap-container">
         <div
           v-for="trap in TrapKeys"
           :key="trap"
-          @mousedown="playTrap(trap)"
+          @mousedown="handleTrapMouseDown(trap)"
           @mouseup="stopSound" 
           :style="{ backgroundColor: getNoteColor(trap) }"
           class="trap-key"
@@ -203,6 +228,10 @@ const toggleInfo = () => {
   user-select: none;
   color: #ffff;
   font-family: "Protest Riot", sans-serif;
+}
+
+.oscillator-mode {
+  margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
