@@ -1,32 +1,33 @@
 export const keyBindings = {
-  A: "A3",
-  S: "Bb3",
-  D: "B3",
-  F: "C4",
-  G: "Db4",
-  H: "D4",
-  J: "Eb4",
-  K: "E4",
-  L: "F4",
-  ";": "Gb4",
-  "'": "G4",
-  Z: "Ab4",
-  X: "A4",
-  C: "Bb4",
-  V: "B4",
-  B: "C5",
-  N: "Db5",
-  M: "D5",
-  ",": "Eb5",
-  ".": "E5",
-  "/": "F5",
-  Q: "Gb5",
-  W: "G5",
-  E: "Ab5",
-  R: "A5",
+  Z: "C2",
+  X: "Db2",
+  C: "D2",
+  V: "Eb2",
+  B: "E2",
+  N: "F2",
+  M: "Gb2",
+  ",": "G2",
+  ".": "Ab2",
+  "/": "A2",
+  Q: "Bb2",
+  W: "B2",
+  E: "C3",
+  R: "Db3",
+  T: "D3",
+  Y: "Eb3",
+  U: "E3",
+  I: "F3",
+  O: "Gb3",
+  P: "G3",
+  "[": "Ab3",
+  "]": "A3",
+  A: "Bb3",
+  S: "B3",
+  D: "C4",
 };
+
 export const isBlackKey = (note) => {
-  const blackKeys = ["Bb", "Db", "Eb", "Gb", "Ab"];
+  const blackKeys = ["Db", "Eb", "Gb", "Ab", "Bb"];
   return blackKeys.includes(note.substring(0, 2));
 };
 
@@ -36,13 +37,17 @@ export const getAudioPath = (note) => {
   return path;
 };
 
-export const playSound = (note) => {
+export const playSound = (note, duration = 550) => {
   const audioPath = getAudioPath(note);
   try {
     const audio = new Audio(audioPath);
-
     audio.play();
     console.log("Audio played successfully");
+    
+    // Stop the sound after the specified duration
+    setTimeout(() => {
+      audio.pause();
+    }, duration);
   } catch (error) {
     console.error("Error playing audio:", error);
   }
