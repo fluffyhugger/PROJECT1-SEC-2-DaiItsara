@@ -6,18 +6,19 @@ import SvgName from "./components/icons/svgname.svg?raw";
 import "@fortawesome/fontawesome-free/css/all.css";
 const TrapKeys = ref([
   "C",
-  "C#",
+  "Db",
   "D",
-  "D#",
+  "Eb",
   "E",
   "F",
-  "F#",
+  "Gb",
   "G",
-  "G#",
+  "Ab",
   "A",
-  "A#",
+  "Bb",
   "B",
 ]);
+const blackKeys = ref(["Db", "Eb", "Gb", "Ab", "Bb"])
 const {
   getAudioPath,
   playSound,
@@ -81,7 +82,7 @@ const toggleInfo = () => {
           @mousedown="handleTrapMouseDown(trap)"
           @mouseup="stopSound" 
           :style="{ backgroundColor: getNoteColor(trap) }"
-          class="trap-key"
+          :class="{ 'piano-key': true }"
         >
           {{ trap }}
         </div>
@@ -110,7 +111,7 @@ const toggleInfo = () => {
       <!-- Icon to toggle the visibility of the information section -->
       <i
         @click="toggleInfo"
-        class="fa-solid fa-circle-info fixed bottom-0 right-0 fa-2x m-2 cursor-pointer text-gray-500 hover:text-gray-700"
+        class="fa-solid fa-circle-info fixed bottom-0 right-0 fa-2x m-2 cursor-pointer text-white hover:text-gray-700"
       ></i>
 
       <!-- Information section -->
@@ -124,7 +125,7 @@ const toggleInfo = () => {
           class="fa-solid fa-times-circle absolute top-2 right-2 cursor-pointer text-gray-500 hover:text-gray-700"
         ></i>
         <h1
-          class="text-3xl font-semibold mb-4 text-gray-800"
+          class="text-3xl font-semibold mb-4 text-red-400"
           style="font-family: 'Roboto', sans-serif"
         >
           How to Play Piano
@@ -150,13 +151,14 @@ const toggleInfo = () => {
           </li>
         </ol>
       </div>
-
+      
       <p
-        class="font-l font-light from-stone-500 text-center fixed bottom-0 left-0 w-full"
+        class="font-l font-light text-white text-center fixed bottom-0 left-0 w-full"
       >
         @DAIISARA INT203 ClIENT SIDE II
       </p>
     </footer>
+
   </div>
 </template>
 <style scoped>
@@ -174,26 +176,26 @@ const toggleInfo = () => {
   color: #ffff;
   font-family: "Protest Riot", sans-serif;
 }
-.trap-key:active {
+.piano-key:active {
   background-color: #ddd;
-  border: 2px solid red;
+  border: 2px solid gray;
 }
 .piano-key {
-  width: 4.5vw;
-  height: 30vh;
+  width: 4.5dvw;
+  height: 30dvh;
   display: inline-block;
   text-align: center;
-  line-height: 270px;
+  line-height: 500px;
   cursor: pointer;
   user-select: none;
   background-color: #ffff;
-  color: black;
+  color: gray;
   font-size: 1vw; /* Responsive font size */
-  border: 1px solid #000;
+  border: 1px solid #00000046;
   border-radius: 8px;
 }
 .black-key {
-  width: 3vw;
+  width: 2.5vw;
   z-index: 2;
   line-height: 20px;
   margin: 0 -1.8vw 0 -1.8vw;
