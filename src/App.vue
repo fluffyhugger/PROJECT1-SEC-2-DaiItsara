@@ -1,72 +1,108 @@
 <script setup>
-import { ref } from "vue";
-import * as piano from "./piano.js";
-import * as trap from "./trap.js";
-import SvgName from "./components/icons/svgname.svg?raw";
-import "@fortawesome/fontawesome-free/css/all.css";
+import { ref } from 'vue'
+import * as piano from './piano.js'
+import * as trap from './trap.js'
+import SvgName from './components/icons/svgname.svg?raw'
+import '@fortawesome/fontawesome-free/css/all.css'
 const TrapKeys = ref([
-  "C",
-  "Db",
-  "D",
-  "Eb",
-  "E",
-  "F",
-  "Gb",
-  "G",
-  "Ab",
-  "A",
-  "Bb",
-  "B",
-]);
-const blackKeys = ref(["Db", "Eb", "Gb", "Ab", "Bb"])
+  'C',
+  'Db',
+  'D',
+  'Eb',
+  'E',
+  'F',
+  'Gb',
+  'G',
+  'Ab',
+  'A',
+  'Bb',
+  'B'
+])
+const blackKeys = ref(['Db', 'Eb', 'Gb', 'Ab', 'Bb'])
 const {
   getAudioPath,
   playSound,
   isBlackKey,
   keyBindings,
   handleKeyUp,
-  handleClick,
-} = piano;
-const {  getNoteColor, playTrap, stopSound, noteToFrequency  } =
-  trap;
+  handleClick
+} = piano
+const { getNoteColor, playTrap, stopSound, noteToFrequency } = trap
 
 // Oscillator type
-const selectedOscillatorType = ref("sine"); //default value
+const selectedOscillatorType = ref('sine') //default value
 
 // change type
 const changeOscillatorType = () => {
-  trap.setOscillatorType(selectedOscillatorType.value);
-};
+  trap.setOscillatorType(selectedOscillatorType.value)
+}
 
 const handleTrapMouseDown = (trap) => {
-  playTrap(trap, selectedOscillatorType);
-};
+  playTrap(trap, selectedOscillatorType)
+}
 
 /* part how to play  */
-const showInfo = ref(false);
+const showInfo = ref(false)
 const toggleInfo = () => {
-  showInfo.value = !showInfo.value;
-};
+  showInfo.value = !showInfo.value
+}
+// BG section
+const backgrounds = [
+  import('@/assets/pastelsea.mp4'),
+  import('@/assets/disc.mp4'),
+  import('@/assets/green.mp4')
+]
+const selectedBackgroundIndex = ref(0)
+
+const changeBackground = async (index) => {
+  selectedBackgroundIndex.value = index
+  const video = await backgrounds[index]
+  document.getElementById('background-video').src = video.default
+}
+
 /* ---------------- */
 </script>
 <template>
   <div>
+    <video autoplay muted loop id="background-video">
+      <source :src="backgrounds[selectedBackgroundIndex]" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
     <header id="header" class="w-full h-20">
       <div class="svg-image flex justify-center mt-6" v-html="SvgName"></div>
     </header>
 
-    <video autoplay muted loop class="video">
-      <source src="./assets/pastelsea.mp4" type="video/mp4" />
-      <source src="./assets/pastelsea.mp4" type="video/webm" />
-    </video>
+    <div class="background-selector">
+      <label for="background-select" class="text-white"
+        >Select Background:</label
+      >
+      <select
+        v-model="selectedBackgroundIndex"
+        id="background-select"
+        class="p-2 rounded-md bg-gray-800 text-white"
+      >
+        <option
+          v-for="(background, index) in backgrounds"
+          :key="index"
+          :value="index"
+        >
+          Background {{ index + 1 }}
+        </option>
+      </select>
+    </div>
 
     <section id="trap" class="trap-section">
-
-    <!-- UI for selecting oscillator type -->
-    <div class="oscillator-mode mb-6 flex justify-center">
-        <label for="oscillator-type" class="text-white">Select Oscillator Type:</label>
-        <select v-model="selectedOscillatorType" @change="changeOscillatorType"
-        class="p-2 rounded-md bg-gray-800 text-white">
+      <!-- UI for selecting oscillator type -->
+      <div class="oscillator-mode mb-6 flex justify-center">
+        <label for="oscillator-type" class="text-white"
+          >Select Oscillator Type:</label
+        >
+        <select
+          v-model="selectedOscillatorType"
+          @change="changeOscillatorType"
+          class="p-2 rounded-md bg-gray-800 text-white"
+        >
           <option value="sine">Sine</option>
           <option value="square">Square</option>
           <option value="sawtooth">Sawtooth</option>
@@ -74,21 +110,21 @@ const toggleInfo = () => {
         </select>
       </div>
 
-    <div class="flex justify-center">
-      <div class="trap-container">
-        <div
-          v-for="trap in TrapKeys"
-          :key="trap"
-          @mousedown="handleTrapMouseDown(trap)"
-          @mouseup="stopSound" 
-          :style="{ backgroundColor: getNoteColor(trap) }"
-          :class="{ 'piano-key': true }"
-        >
-          {{ trap }}
+      <div class="flex justify-center">
+        <div class="trap-container">
+          <div
+            v-for="trap in TrapKeys"
+            :key="trap"
+            @mousedown="handleTrapMouseDown(trap)"
+            @mouseup="stopSound"
+            :style="{ backgroundColor: getNoteColor(trap) }"
+            :class="{ 'piano-key': true }"
+          >
+            {{ trap }}
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
     <section
       id="piano"
       class="flex justify-center"
@@ -151,18 +187,17 @@ const toggleInfo = () => {
           </li>
         </ol>
       </div>
-      
+
       <p
         class="font-l font-light text-white text-center fixed bottom-0 left-0 w-full"
       >
         @DAIISARA INT203 ClIENT SIDE II
       </p>
     </footer>
-
   </div>
 </template>
 <style scoped>
-@import "./components/util.css";
+@import './components/util.css';
 
 .trap-key {
   width: 100px;
@@ -174,7 +209,7 @@ const toggleInfo = () => {
   margin-right: 20px;
   user-select: none;
   color: #ffff;
-  font-family: "Protest Riot", sans-serif;
+  font-family: 'Protest Riot', sans-serif;
 }
 .piano-key:active {
   background-color: #ddd;
@@ -229,7 +264,7 @@ const toggleInfo = () => {
   margin: 10px; /* Adjust as needed */
   user-select: none;
   color: #ffff;
-  font-family: "Protest Riot", sans-serif;
+  font-family: 'Protest Riot', sans-serif;
 }
 
 .oscillator-mode {
@@ -252,5 +287,16 @@ const toggleInfo = () => {
     height: 60px; /* Adjust as needed */
     line-height: 60px; /* Adjust as needed */
   }
+}
+
+#background-video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1;
 }
 </style>
