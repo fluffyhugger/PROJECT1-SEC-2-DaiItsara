@@ -24,7 +24,7 @@ const TrapKeys = ref([
   'Ab',
   'A',
   'Bb',
-  'B',
+  'B'
 ])
 const blackKeys = ref(['Db', 'Eb', 'Gb', 'Ab', 'Bb'])
 const {
@@ -33,7 +33,7 @@ const {
   isBlackKey,
   keyBindings,
   handleKeyUp,
-  handleClick,
+  handleClick
 } = piano
 const { getNoteColor, playTrap, stopSound, noteToFrequency } = trap
 
@@ -54,6 +54,24 @@ const showInfo = ref(false)
 const toggleInfo = () => {
   showInfo.value = !showInfo.value
 }
+
+// Metronome section
+const isButtonClickSoundPlaying = ref(false)
+const buttonClickAudio = new Audio('/src/assets/metro.mp3')
+
+const toggleMetronome = () => {
+  if (isButtonClickSoundPlaying.value) {
+    // If the sound is currently playing, stop it
+    buttonClickAudio.pause()
+    isButtonClickSoundPlaying.value = false
+  } else {
+    // If the sound is not playing, start it
+    buttonClickAudio.currentTime = 0 // Reset the audio to the beginning
+    buttonClickAudio.play()
+    isButtonClickSoundPlaying.value = true
+  }
+}
+
 /* ---------------- */
 </script>
 <template>
@@ -111,7 +129,7 @@ const toggleInfo = () => {
             @mouseup="stopSound"
             :style="{ backgroundColor: getNoteColor(trap) }"
             :class="{
-              'trap-key': true,
+              'trap-key': true
             }"
           >
             {{ trap }}
@@ -144,9 +162,29 @@ const toggleInfo = () => {
       <!-- Icon to toggle the visibility of the information section -->
       <i
         @click="toggleInfo"
-        class="fa-solid fa-circle-info fixed bottom-0 right-0 fa-2x m-2 cursor-pointer text-white hover:text-gray-700"
+        class="fa-solid fa-circle-info fixed bottom-3 right-0 fa-2xl m-2 cursor-pointer text-white hover:text-gray-700"
       ></i>
 
+      <!-- Metro Section-->
+      <div>
+        <button
+          @click="toggleMetronome"
+          class="fixed bottom-1 right-11 p-1.5 bg-white text-white rounded-full cursor-pointer hover:bg-slate-700"
+        >
+          <img
+            v-if="!isButtonClickSoundPlaying"
+            src="./components/icons/metronome.svg"
+            alt="Start Metronome"
+            style="width: 20px; height: 20px"
+          />
+          <img
+            v-else
+            src="./components/icons/metronome.svg"
+            alt="Stop Metronome"
+            style="width: 20px; height: 20px"
+          />
+        </button>
+      </div>
       <!-- Information section -->
       <div
         v-if="showInfo"
