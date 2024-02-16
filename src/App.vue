@@ -72,6 +72,18 @@ const toggleMetronome = () => {
   }
 }
 
+//volume control section
+const volume = ref(0.5) // Initial volume level (adjust as needed)
+
+const setVolume = (newVolume) => {
+  if (newVolume >= 0 && newVolume <= 1) {
+    volume.value = newVolume
+  }
+  // You can also update the volume level for other audio sources if needed
+  // For example, if you're using the buttonClickAudio for the metronome
+  buttonClickAudio.volume = volume.value
+}
+
 /* ---------------- */
 </script>
 <template>
@@ -141,7 +153,7 @@ const toggleMetronome = () => {
     <section
       id="piano"
       class="flex justify-center"
-      @keyup="handleKeyUp"
+      @keyup="(event) => handleKeyUp(event, volume)"
       tabindex="0"
       v-if="!showInfo"
     >
@@ -151,7 +163,7 @@ const toggleMetronome = () => {
         :class="{ 'piano-key': true, 'black-key': isBlackKey(note) }"
         :data-note="note"
         class="rounded"
-        @click="handleClick(note)"
+        @click="() => handleClick(note, volume)"
         @mouseup="checkKey(note)"
       >
         {{ note }}
@@ -164,6 +176,21 @@ const toggleMetronome = () => {
         @click="toggleInfo"
         class="fa-solid fa-circle-info fixed bottom-3 right-0 fa-2xl m-2 cursor-pointer text-white hover:text-gray-700"
       ></i>
+
+      <!-- Volume Control Input-->
+      <div class="volume-control">
+        <label for="volume-slider" class="text-white">Volume:</label>
+        <input
+          id="volume-slider"
+          type="range"
+          min="0"
+          max="1"
+          step="0.1"
+          v-model="volume"
+          @input="setVolume(volume)"
+          class="p-2 rounded-md bg-gray-800 text-white"
+        />
+      </div>
 
       <!-- Metro Section-->
       <div>
