@@ -1,29 +1,15 @@
-# piano-korean
+# piano-korean += touchpad;
+การนำคีย์เปียโนซึ่งเป็นส่วนดนตรีคลาสสิก มาปรับให้เข้ากับยุคสมัยในปัจจุบัน
 
-This template should help get you started developing with Vue 3 in Vite.
+## MAIN FEATURES 
+<br>metronomd ใส่เสียงได้ (คิดว่าไม่ยากมาก) [Card 079]
+<br>theme (JAPAN , CITY , 8 bit ) 
+<ul><li>PIANO SOUND + LOGIC [NOEY 107]</li><li>PIANO-THEME [Mat 091]</li></ul>
+กดปุ่มเปลี่ยนเสียงauxilator type [Poh 122]<br>
+กดขึ้นโน๊ตกลางจอ [ING 085]
 
-## Recommended IDE Setup
+Addition Features = {
+not sure :
+"กดค้าง ทำเสียงยาว-สั้น" ,"อัดเสียง"} 
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
