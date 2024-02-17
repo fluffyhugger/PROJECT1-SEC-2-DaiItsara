@@ -47,6 +47,23 @@ export const stopSound = () => {
     oscillator.disconnect()
   }
 }
+
+//Map trap's key
+export const trapKeyMap = {
+  '1': 'C',
+  '2': 'Db',
+  '3': 'D',
+  '4': 'Eb',
+  '5': 'E',
+  '6': 'F',
+  '7': 'Gb',
+  '8': 'G',
+  '9': 'Ab',
+  '0': 'A',
+  '-': 'Bb',
+  '=': 'B'
+}
+
 export const noteToFrequency = (note) => {
   const A4Frequency = 440 // Frequency of A4
   const TrapKeys = [

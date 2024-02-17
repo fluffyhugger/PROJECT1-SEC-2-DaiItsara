@@ -35,7 +35,7 @@ const {
   handleKeyUp,
   handleClick
 } = piano
-const { getNoteColor, playTrap, stopSound, noteToFrequency } = trap
+const { getNoteColor, playTrap, stopSound, noteToFrequency, trapKeyMap } = trap
 
 // Oscillator type
 const selectedOscillatorType = ref('sine') //default value
@@ -47,6 +47,20 @@ const changeOscillatorType = () => {
 
 const handleTrapMouseDown = (trap) => {
   playTrap(trap, selectedOscillatorType)
+}
+
+// binding trap to keyboard keys
+const handleTrapKeyDown = (event) => {
+  const key = event.key.toUpperCase()
+  if (trapKeyMap.hasOwnProperty(key)) {
+    const trapNote = trapKeyMap[key]
+    playTrap(trapNote, selectedOscillatorType)
+    checkKey(trapNote)
+  }
+}
+
+const handleTrapKeyUp = () => {
+  stopSound()
 }
 
 /* part how to play  */
@@ -139,11 +153,14 @@ const setVolume = (newVolume) => {
             @click="checkKey(trap)"
             @mousedown="handleTrapMouseDown(trap)"
             @mouseup="stopSound"
+            @keydown="handleTrapKeyDown"
+            @keyup="handleTrapKeyUp"
             :style="{ backgroundColor: getNoteColor(trap) }"
             :class="{
               'trap-key': true
             }"
-          >
+            tabindex="0" 
+          > <!-- Add tabindex to make the div focus on keyboard events -->
             {{ trap }}
           </div>
         </div>
