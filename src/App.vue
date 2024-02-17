@@ -249,6 +249,9 @@ const checkSong = (key) => {
       id="trap"
       class="trap-section flex justify-center"
       v-if="!showInfo"
+      @keydown="handleTrapKeyDown"
+      @keyup="handleTrapKeyUp"
+      tabindex="0"
     >
       <div class="flex justify-center">
         <div class="trap-container">
@@ -258,8 +261,6 @@ const checkSong = (key) => {
             @click="checkKey(trap)"
             @mousedown="handleTrapMouseDown(trap)"
             @mouseup="stopSound"
-            @keydown="handleTrapKeyDown"
-            @keyup="handleTrapKeyUp"
             :style="{ backgroundColor: getNoteColor(trap) }"
             :class="{
               'trap-key': true,

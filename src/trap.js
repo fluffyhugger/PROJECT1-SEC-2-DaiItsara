@@ -1,6 +1,6 @@
-export let audioContext = null
-
-export let oscillator = null
+let audioContext = null
+let oscillator = null
+let isNotePlaying = false //default is not playing
 
 export function createAudioContext() {
   try {
@@ -20,31 +20,26 @@ export function setOscillatorType(type) {
 }
 
 export const playTrap = (note, selectedOscillatorType) => {
-  //ad oscillator type parameter
+  //add oscillator type parameter
+  if (isNotePlaying) return // if a note is already playing, ignore the new play request
+  isNotePlaying = true // set the flag to true
   console.log('Playing note:', note)
   console.log('Selected oscillator type:', selectedOscillatorType.value)
   if (!audioContext) {
-    // If AudioContext is not initialized, create it
     createAudioContext()
   }
-  // Check if AudioContext is suspended and resume it if needed
-  if (audioContext.state === 'suspended') {
-    audioContext.resume()
-  }
-
   oscillator = audioContext.createOscillator()
   oscillator.type = selectedOscillatorType.value
-  oscillator.frequency.setValueAtTime(
-    noteToFrequency(note),
-    audioContext.currentTime
-  )
+  oscillator.frequency.setValueAtTime(noteToFrequency(note), audioContext.currentTime)
   oscillator.connect(audioContext.destination)
   oscillator.start()
 }
 export const stopSound = () => {
   if (oscillator) {
-    oscillator.stop(audioContext.currentTime)
+    oscillator.stop()
     oscillator.disconnect()
+    oscillator = null
+    isNotePlaying = false // reset when the note stops playing
   }
 }
 
