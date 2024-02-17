@@ -24,7 +24,7 @@ const TrapKeys = ref([
   'Ab',
   'A',
   'Bb',
-  'B'
+  'B',
 ])
 // const blackKeys = ref(['Db', 'Eb', 'Gb', 'Ab', 'Bb'])
 const {
@@ -33,7 +33,7 @@ const {
   isBlackKey,
   keyBindings,
   handleKeyUp,
-  handleClick
+  handleClick,
 } = piano
 const { getNoteColor, playTrap, stopSound, noteToFrequency, trapKeyMap } = trap
 
@@ -81,6 +81,7 @@ const toggleMetronome = () => {
   } else {
     // If the sound is not playing, start it
     buttonClickAudio.currentTime = 0 // Reset the audio to the beginning
+    buttonClickAudio.loop = true
     buttonClickAudio.play()
     isButtonClickSoundPlaying.value = true
   }
@@ -102,8 +103,69 @@ const isActive = ref(false)
 
 const toggle = () => {
   isActive.value = !isActive.value
-};
+  theKey.value = []
+}
 
+// Tutorials Song Test
+const mySong = ref([
+  'C2',
+  'D2',
+  'E2',
+  'D2',
+  'E2',
+  'F2',
+  'G2',
+  'E2',
+  'F2',
+  'G2',
+  'A2',
+  'G2',
+  'F2',
+  'E2',
+  'D2',
+  'C2',
+  'C3',
+  'D3',
+  'E3',
+  'D3',
+  'E3',
+  'F3',
+  'G3',
+  'E3',
+  'F3',
+  'G3',
+  'A3',
+  'G3',
+  'F3',
+  'E3',
+  'D3',
+  'C3',
+  'C4',
+  'D4',
+  'E4',
+  'D4',
+  'E4',
+  'F4',
+  'G4',
+  'E4',
+  'F4',
+  'G4',
+  'A4',
+  'G4',
+  'F4',
+  'E4',
+  'D4',
+  'C4',
+])
+const songIndex = ref(0)
+const songMessage = ref(`Press ${mySong.value[0]}`)
+
+const checkSong = (key) => {
+  if (key === mySong.value[songIndex.value]) {
+    songIndex.value++
+    songMessage.value = `Press ${mySong.value[songIndex.value]}`
+  }
+}
 
 /* ---------------- */
 </script>
@@ -126,7 +188,7 @@ const toggle = () => {
         <select
           v-model="selectedOscillatorType"
           @change="changeOscillatorType"
-          class="p-2 rounded-md bg-gray-800 text-white"
+          class="ml-2 rounded-md bg-white bg-opacity-10 text-white"
         >
           <option value="sine">Sine</option>
           <option value="square">Square</option>
@@ -138,30 +200,52 @@ const toggle = () => {
     <!-- Note pressing showing -->
     <section>
       <div class="flex justify-center text-center">
-        <div class="w-1.5/6 bg-white bg-opacity-10 mx-auto p-5">
+        <div class="w-1.5/6 bg-white bg-opacity-10 mx-auto p-3">
           <span class="note">
             {{ theKey }}
           </span>
         </div>
       </div>
     </section>
-    <!-- Switch piano section -->
-    <div class="flex  items-center justify-center">
-      <span class="text-white">Classic piano</span>
-    <div 
-    class="toggle-button"
-    :class="{ active: isActive }"
-    @click="toggle"
-  >
-    <div class="toggle-circle"></div>
-  </div>
-  
-  <span class="text-white">Electronic piano</span>
-</div>
+    <div>
+      <!-- Switch piano section -->
+      <div class="flex items-center justify-center mt-3">
+        <span class="text-white" :class="{ active: isActive }"
+          >Classic piano</span
+        >
+        <div
+          class="toggle-button"
+          :class="{ active: isActive }"
+          @click="toggle"
+        >
+          <div class="toggle-circle"></div>
+        </div>
+
+        <span class="text-white">Electronic piano</span>
+        <!-- Volume Control Input-->
+        <span class="ml-5" v-if="!isActive && !showInfo">
+          <span class="flex justify-center text-white">
+            Volume: {{ volume }}</span
+          >
+          <div class="volume-control ml-2 mb-3">
+            <input
+              id="volume-slider"
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              v-model="volume"
+              @input="setVolume(volume)"
+              class="p-2 rounded-md bg-gray-800 text-white"
+            />
+          </div>
+        </span>
+      </div>
+    </div>
 
     <!-- Trap Section -->
     <section
-    v-show="isActive"
+      v-show="isActive"
       id="trap"
       class="trap-section flex justify-center"
       v-if="!showInfo"
@@ -178,10 +262,11 @@ const toggle = () => {
             @keyup="handleTrapKeyUp"
             :style="{ backgroundColor: getNoteColor(trap) }"
             :class="{
-              'trap-key': true
+              'trap-key': true,
             }"
-            tabindex="0" 
-          > <!-- Add tabindex to make the div focus on keyboard events -->
+            tabindex="0"
+          >
+            <!-- Add tabindex to make the div focus on keyboard events -->
             {{ trap }}
           </div>
         </div>
@@ -198,15 +283,25 @@ const toggle = () => {
       <div
         v-for="(note, key) in keyBindings"
         :key="key"
-        :class="{ 'piano-key': true, 'black-key': isBlackKey(note) }"
+        :class="{
+          'piano-key': true,
+          'black-key': isBlackKey(note),
+        }"
         :data-note="note"
         class="rounded"
         @click="() => handleClick(note, volume)"
         @mouseup="checkKey(note)"
+        @mousedown="checkSong(note)"
       >
         {{ note }}
       </div>
     </section>
+
+    <!-- Tutorial Song Tection -->
+    <!-- <div class="text-center text-white mt-10">
+      <h2>Tutorial Song</h2>
+      <p>{{ songMessage }}</p>
+    </div> -->
 
     <footer class="flex justify-center p-10">
       <!-- Icon to toggle the visibility of the information section -->
@@ -214,22 +309,6 @@ const toggle = () => {
         @click="toggleInfo"
         class="fa-solid fa-circle-info fixed bottom-3 right-0 fa-2xl m-2 cursor-pointer text-white hover:text-gray-700"
       ></i>
-
-      <!-- Volume Control Input-->
-      <div class="volume-control"
-      v-if="!isActive && !showInfo">
-        <label for="volume-slider" class="text-white">Volume:</label>
-        <input
-          id="volume-slider"
-          type="range"
-          min="0"
-          max="1"
-          step="0.1"
-          v-model="volume"
-          @input="setVolume(volume)"
-          class="p-2 rounded-md bg-gray-800 text-white"
-        />
-      </div>
 
       <!-- Metro Section-->
       <div>
@@ -288,7 +367,6 @@ const toggle = () => {
           </li>
         </ol>
       </div>
-
       <p
         class="font-l font-light text-white text-center fixed bottom-0 left-0 w-full"
       >
@@ -299,7 +377,9 @@ const toggle = () => {
 </template>
 <style scoped>
 @import './components/util.css';
-
+div {
+  font-family: 'Protest Riot', sans-serif;
+}
 .trap-key {
   width: 4.5vw;
   height: 30vh;
@@ -332,6 +412,7 @@ const toggle = () => {
   font-size: 1vw; /* Responsive font size */
   border: 1px solid #00000046;
   border-radius: 8px;
+  color: #ffff;
 }
 .black-key {
   width: 2.5vw;
