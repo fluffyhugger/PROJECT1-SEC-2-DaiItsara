@@ -26,7 +26,7 @@ const TrapKeys = ref([
   'Bb',
   'B'
 ])
-const blackKeys = ref(['Db', 'Eb', 'Gb', 'Ab', 'Bb'])
+// const blackKeys = ref(['Db', 'Eb', 'Gb', 'Ab', 'Bb'])
 const {
   getAudioPath,
   playSound,
@@ -97,6 +97,13 @@ const setVolume = (newVolume) => {
   // For example, if you're using the buttonClickAudio for the metronome
   buttonClickAudio.volume = volume.value
 }
+//Toggle mode
+const isActive = ref(false)
+
+const toggle = () => {
+  isActive.value = !isActive.value
+};
+
 
 /* ---------------- */
 </script>
@@ -112,7 +119,7 @@ const setVolume = (newVolume) => {
     </video>
     <section>
       <!-- UI for selecting oscillator type -->
-      <div class="oscillator-mode mb-6 flex justify-center">
+      <div v-if="isActive" class="oscillator-mode mb-6 flex justify-center">
         <label for="oscillator-type" class="text-white"
           >Select Oscillator Type:</label
         >
@@ -138,9 +145,23 @@ const setVolume = (newVolume) => {
         </div>
       </div>
     </section>
+    <!-- Switch piano section -->
+    <div class="flex  items-center justify-center">
+      <span class="text-white">Classic piano</span>
+    <div 
+    class="toggle-button"
+    :class="{ active: isActive }"
+    @click="toggle"
+  >
+    <div class="toggle-circle"></div>
+  </div>
+  
+  <span class="text-white">Electronic piano</span>
+</div>
 
     <!-- Trap Section -->
     <section
+    v-show="isActive"
       id="trap"
       class="trap-section flex justify-center"
       v-if="!showInfo"
@@ -172,7 +193,7 @@ const setVolume = (newVolume) => {
       class="flex justify-center"
       @keyup="(event) => handleKeyUp(event, volume)"
       tabindex="0"
-      v-if="!showInfo"
+      v-if="!isActive && !showInfo"
     >
       <div
         v-for="(note, key) in keyBindings"
@@ -195,7 +216,8 @@ const setVolume = (newVolume) => {
       ></i>
 
       <!-- Volume Control Input-->
-      <div class="volume-control">
+      <div class="volume-control"
+      v-if="!isActive && !showInfo">
         <label for="volume-slider" class="text-white">Volume:</label>
         <input
           id="volume-slider"
@@ -337,6 +359,33 @@ const setVolume = (newVolume) => {
 
 .oscillator-mode {
   margin-bottom: 20px;
+}
+.toggle-button {
+  width: 50px;
+  height: 25px;
+  background-color: orange;
+  border-radius: 25px;
+  position: relative;
+  cursor: pointer;
+}
+
+.toggle-circle {
+  width: 25px;
+  height: 25px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease;
+}
+
+.toggle-button.active {
+  background-color: #7bc043;
+}
+
+.toggle-button.active .toggle-circle {
+  transform: translateX(25px);
 }
 </style>
 
