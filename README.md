@@ -37,6 +37,20 @@ This interactive web application combines the timeless beauty of Korean piano wi
 
 <img src="./material/figma/demo.png"/>
 
+##Reference
+1. **Vue.js Minimal Synth Example**
+   - Source: [Vue.js Minimal Synth](https://vuejsexamples.com/a-minimal-synth-with-an-oscillator-and-adsr-envelope-built-with-vue-js/)
+
+2. **Web API - OscillatorNode**
+   - Documentation: [MDN Web Docs - OscillatorNode](https://developer.mozilla.org/en-US/docs/Web/API/OscillatorNode)
+
+3. **Drumset Fundamentals For Metronome**
+   - Channel Link: [Drumset Fundamentals YouTube Channel](https://www.youtube.com/@DrumsetFundamentals)
+
+4. **Pexels - Background Video And Assets**
+   - Website: [Pexels](https://www.pexels.com)
+
+
 ## Contributor:
 | Name                          | StudentID         | Github         |
 | ----------------------------- | ----------------- | -------------- |
