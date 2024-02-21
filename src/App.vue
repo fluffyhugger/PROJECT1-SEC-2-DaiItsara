@@ -146,6 +146,15 @@ onBeforeMount(() => {
     location.reload();
   }
 });
+
+// Define trapVolume ref to control the oscillator volume
+const trapVolume = ref(0.5) // Initial volume level 
+
+// Function to set the trap oscillator volume
+const setTrapVolume = (newVolume) => {
+  trap.setTrapVolume(newVolume)
+}
+
 </script>
 <template>
   <div>
@@ -257,7 +266,7 @@ onBeforeMount(() => {
         </div>
 
         <span class="text-white">Electronic piano</span>
-        <!-- Volume Control Input-->
+        <!-- Piano Volume Control Input-->
         <span class="ml-5" v-if="!isActive && !showInfo">
           <span class="flex justify-center text-white">
             Volume: {{ volume }}</span
@@ -271,6 +280,24 @@ onBeforeMount(() => {
               step="0.1"
               v-model="volume"
               @input="setVolume(volume)"
+              class="p-2 rounded-md bg-gray-800 text-white"
+            />
+          </div>
+        </span>
+        <!-- Oscillator Volume Control Input-->
+        <span class="ml-5" v-if="isActive && !showInfo">
+          <span class="flex justify-center text-white">
+            Volume: {{ trapVolume }}</span
+          >
+          <div class="volume-control ml-2 mb-3">
+            <input
+              id="volume-slider"
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              v-model="trapVolume"
+              @input="setTrapVolume(trapVolume)"
               class="p-2 rounded-md bg-gray-800 text-white"
             />
           </div>

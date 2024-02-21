@@ -1,6 +1,7 @@
 let audioContext = null
 let oscillator = null
 let isNotePlaying = false //default is not playing
+let trapVolumeValue = 0.5 // Default volume value
 
 export function createAudioContext() {
   try {
@@ -19,6 +20,13 @@ export function setOscillatorType(type) {
   }
 }
 
+export const setTrapVolume = (volume) => { //set trap volume
+  trapVolumeValue = volume
+  if (oscillator) {
+    oscillator.gain.setValueAtTime(volume, audioContext.currentTime)
+  }
+}
+
 export const playTrap = (note, selectedOscillatorType) => {
   //add oscillator type parameter
   if (isNotePlaying) return // if a note is already playing, ignore the new play request
@@ -30,10 +38,19 @@ export const playTrap = (note, selectedOscillatorType) => {
   }
   oscillator = audioContext.createOscillator()
   oscillator.type = selectedOscillatorType.value
+  
+  // Create a gain node to control the volume
+  const gainNode = audioContext.createGain()
+  gainNode.gain.setValueAtTime(trapVolumeValue, audioContext.currentTime)
+
+  // Connect the oscillator to the gain node, and the gain node to the destination
+  oscillator.connect(gainNode)
+  gainNode.connect(audioContext.destination)
+
   oscillator.frequency.setValueAtTime(noteToFrequency(note), audioContext.currentTime)
-  oscillator.connect(audioContext.destination)
   oscillator.start()
 }
+
 export const stopSound = () => {
   if (oscillator) {
     oscillator.stop()
