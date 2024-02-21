@@ -35,7 +35,7 @@ This interactive web application combines the timeless beauty of Korean piano wi
 8. **Metronome:**
    - Includes a button to start/stop a metronome for practicing with the rhythm.
 
-<img src="./materials/figma/demo.png"/>
+<img src="./material/figma/demo.png"/>
 
 ## Contributor:
 | Name                          | StudentID         | Github         |
