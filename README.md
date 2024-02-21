@@ -7,7 +7,7 @@ This interactive web application combines the timeless beauty of Korean piano wi
 ## Features:
 
 1. **Interactive Piano Keyboards:**
-   - Classic piano keyboard: Allows users to play realistic piano sounds using their computer keyboard or mouse.
+   - Classic piano keyboard: Allows users to play realistic piano sounds using their computer keyboard or mouse. 
    - Electronic piano keyboard: Transform classic piano sounds into futuristic melodies with the electronic piano's oscillator.
 
 2. **Sound Playback:**
@@ -37,7 +37,8 @@ This interactive web application combines the timeless beauty of Korean piano wi
 
 <img src="./material/figma/demo.png"/>
 
-##Reference
+## Reference:
+
 1. **Vue.js Minimal Synth Example**
    - Source: [Vue.js Minimal Synth](https://vuejsexamples.com/a-minimal-synth-with-an-oscillator-and-adsr-envelope-built-with-vue-js/)
 
@@ -52,12 +53,28 @@ This interactive web application combines the timeless beauty of Korean piano wi
 
 
 ## Contributor:
-| Name                          | StudentID         | Github         |
-| ----------------------------- | ----------------- | -------------- |
-| Sirakran Kranjanawilasgul     | 65130500079       | Chocolaz       |
-| Sirapob Wuthithein            | 65130500085       | fluffyhugger   |
-| Aismat Boonmalert             | 65130500091       | mattiiee       |
-| Nisarat Aunrueanngam          | 65130500107       | Nisarat-A      |
-| Threepoom Ngamsirisomsakul    | 65130500122       | Threepoom      |
+| Name                          | StudentID         | Github          | Contributions                                      |
+| ----------------------------- | ----------------- | --------------- | -------------------------------------------------- |
+| Sirakran Kranjanawilasgul     | 65130500079       | Chocolaz        | 
+  - Piano Volume Controls
+  - Metronome & BPM Switching
+  - Document And Requirement Instruction                                    |
+| Sirapob Wuthithein            | 65130500085       | fluffyhugger    | 
+  - Visual Pressed Keys
+  - Code Debugger
+  - User Interface                                     |
+| Aismat Boonmalert             | 65130500091       | mattiiee        | 
+  - Electronic Piano Keyboard
+  - Electric Paino Volume Controls
+  - Customize Oscillator Type                           |
+| Nisarat Aunrueanngam          | 65130500107       | Nisarat-A       | 
+  - Classic Piano Keyboard
+  - Switch Background themes
+  - Audio Theme Background                              |
+| Threepoom Ngamsirisomsakul    | 65130500122       | Threepoom       | 
+  - Electronic piano keyboard
+  - Mode Switching
+  - Information Instructions Tutorial                   |
+
 
 
