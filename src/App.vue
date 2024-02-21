@@ -2,16 +2,12 @@
 import { ref, watch, computed, onBeforeMount } from "vue";
 import * as piano from "./piano.js";
 import * as trap from "./trap.js";
+import * as util from "./util.js";
 import SvgName from "./components/icons/svgname.svg?raw";
 import "@fortawesome/fontawesome-free/css/all.css";
-const theKey = ref([]);
-const checkKey = function (key) {
-  if (theKey.value.length < 36) {
-    theKey.value += (theKey.value.length > 0 ? ", " : "") + key;
-  } else {
-    theKey.value = "";
-  }
-};
+const { isBlackKey, keyBindings, handleKeyUp, handleClick, handlePianoKeyDown } = piano;
+const { getNoteColor, playTrap, stopSound, trapKeyMap } = trap;
+const { theKey, checkKey, isActive, toggle } = util;
 const TrapKeys = ref([
   "C",
   "Db",
@@ -26,8 +22,6 @@ const TrapKeys = ref([
   "Bb",
   "B",
 ]);
-const { isBlackKey, keyBindings, handleKeyUp, handleClick } = piano;
-const { getNoteColor, playTrap, stopSound, trapKeyMap } = trap;
 
 // Oscillator type
 const selectedOscillatorType = ref("sine"); //default value
@@ -39,20 +33,6 @@ const changeOscillatorType = () => {
 
 const handleTrapMouseDown = (trap) => {
   playTrap(trap, selectedOscillatorType);
-};
-
-// piano Keydown
-const handlePianoKeyDown = (event) => {
-  const pressedKey = event.key.toUpperCase();
-
-  for (const key in keyBindings) {
-    if (key === pressedKey) {
-      const note = keyBindings[key];
-      console.log(`Key ${pressedKey} pressed. Corresponding note: ${note}`);
-      checkKey(note);
-      break;
-    }
-  }
 };
 
 // binding trap to keyboard keys
@@ -120,6 +100,7 @@ const stopAllMetronomeSounds = () => {
   buttonClickAudioFast.pause();
   isButtonClickSoundPlaying.value = false;
 };
+// piano volumn 
 const volume = ref(0.5); // Initial volume level (adjust as needed)
 
 const setVolume = (newVolume) => {
@@ -128,42 +109,6 @@ const setVolume = (newVolume) => {
   }
   buttonClickAudio.volume = volume.value;
 };
-//Toggle mode
-const isActive = ref(false);
-const toggle = () => {
-  isActive.value = !isActive.value;
-  theKey.value = [];
-};
-//theme
-
-const popupOpen = ref(false);
-const selectedTheme = ref(localStorage.getItem("background"));
-const videoSource = computed(() => {
-  return `./theme/theme-${selectedTheme.value}.mp4`;
-});
-
-const togglePopup = () => {
-  popupOpen.value = !popupOpen.value;
-};
-
-const closePopup = () => {
-  popupOpen.value = false;
-};
-
-const selectTheme = (themeNumber) => {
-  try {
-    selectedTheme.value = themeNumber;
-    localStorage.setItem("background", themeNumber);
-    location.reload();
-    console.log(videoSource.value);
-    console.log("Theme change successful:", `./theme/theme-${themeNumber}.mp4`);
-  } catch (error) {
-    console.error("Theme change failed:", error.message);
-  } finally {
-    closePopup();
-  }
-};
-
 // Watch for changes in selectedTheme and log the new value
 watch(selectedTheme, (newValue) => {
   console.log("Selected theme changed:", newValue);
@@ -174,7 +119,6 @@ onBeforeMount(() => {
     location.reload();
   }
 });
-
 // Define trapVolume ref to control the oscillator volume
 const trapVolume = ref(0.5); // Initial volume level
 

@@ -60,6 +60,20 @@ export const handleKeyUp = (event, volume) => {
   }
 }
 
+// piano Keydown
+export const handlePianoKeyDown = (event) => {
+  const pressedKey = event.key.toUpperCase();
+
+  for (const key in keyBindings) {
+    if (key === pressedKey) {
+      const note = keyBindings[key];
+      console.log(`Key ${pressedKey} pressed. Corresponding note: ${note}`);
+      checkKey(note);
+      break;
+    }
+  }
+};
+
 export const handleClick = (note, volume) => {
   playSound(note, volume)
 }
