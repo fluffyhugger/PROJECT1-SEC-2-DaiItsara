@@ -1,184 +1,214 @@
+<
 <script setup>
-import { ref } from 'vue'
-import * as piano from './piano.js'
-import * as trap from './trap.js'
-import SvgName from './components/icons/svgname.svg?raw'
-import '@fortawesome/fontawesome-free/css/all.css'
-const theKey = ref([])
+import { ref, watch, computed } from "vue";
+import * as piano from "./piano.js";
+import * as trap from "./trap.js";
+import SvgName from "./components/icons/svgname.svg?raw";
+import "@fortawesome/fontawesome-free/css/all.css";
+const theKey = ref([]);
 const checkKey = function (key) {
   if (theKey.value.length < 36) {
-    theKey.value += (theKey.value.length > 0 ? ', ' : '') + key
+    theKey.value += (theKey.value.length > 0 ? ", " : "") + key;
   } else {
-    theKey.value = ''
+    theKey.value = "";
   }
-}
+};
 const TrapKeys = ref([
-  'C',
-  'Db',
-  'D',
-  'Eb',
-  'E',
-  'F',
-  'Gb',
-  'G',
-  'Ab',
-  'A',
-  'Bb',
-  'B',
-])
-// const blackKeys = ref(['Db', 'Eb', 'Gb', 'Ab', 'Bb'])
-const {
-  getAudioPath,
-  playSound,
-  isBlackKey,
-  keyBindings,
-  handleKeyUp,
-  handleClick,
-} = piano
-const { getNoteColor, playTrap, stopSound, noteToFrequency, trapKeyMap } = trap
+  "C",
+  "Db",
+  "D",
+  "Eb",
+  "E",
+  "F",
+  "Gb",
+  "G",
+  "Ab",
+  "A",
+  "Bb",
+  "B",
+]);
+const { isBlackKey, keyBindings, handleKeyUp, handleClick } = piano;
+const { getNoteColor, playTrap, stopSound, trapKeyMap } = trap;
 
 // Oscillator type
-const selectedOscillatorType = ref('sine') //default value
+const selectedOscillatorType = ref("sine"); //default value
 
 // change type
 const changeOscillatorType = () => {
-  trap.setOscillatorType(selectedOscillatorType.value)
-}
+  trap.setOscillatorType(selectedOscillatorType.value);
+};
 
 const handleTrapMouseDown = (trap) => {
-  playTrap(trap, selectedOscillatorType)
-}
+  playTrap(trap, selectedOscillatorType);
+};
+
+// piano Keydown
+const handlePianoKeyDown = (event) => {
+  const pressedKey = event.key.toUpperCase();
+
+  for (const key in keyBindings) {
+    if (key === pressedKey) {
+      const note = keyBindings[key];
+      console.log(`Key ${pressedKey} pressed. Corresponding note: ${note}`);
+      checkKey(note);
+      break;
+    }
+  }
+};
 
 // binding trap to keyboard keys
 const handleTrapKeyDown = (event) => {
-  const key = event.key.toUpperCase()
+  const key = event.key.toUpperCase();
   if (trapKeyMap.hasOwnProperty(key)) {
-    const trapNote = trapKeyMap[key]
-    playTrap(trapNote, selectedOscillatorType)
-    checkKey(trapNote)
+    const trapNote = trapKeyMap[key];
+    playTrap(trapNote, selectedOscillatorType);
+    checkKey(trapNote);
   }
-}
+};
 
 const handleTrapKeyUp = () => {
-  stopSound()
-}
+  stopSound();
+};
 
 /* part how to play  */
-const showInfo = ref(false)
+const showInfo = ref(false);
 const toggleInfo = () => {
-  showInfo.value = !showInfo.value
-}
+  showInfo.value = !showInfo.value;
+};
 
 // Metronome section
-const isButtonClickSoundPlaying = ref(false)
-const buttonClickAudio = new Audio('/src/assets/metro.mp3')
+const isButtonClickSoundPlaying = ref(false);
+const buttonClickAudio = new Audio("/src/assets/metro.mp3");
 
 const toggleMetronome = () => {
   if (isButtonClickSoundPlaying.value) {
     // If the sound is currently playing, stop it
-    buttonClickAudio.pause()
-    isButtonClickSoundPlaying.value = false
+    buttonClickAudio.pause();
+    isButtonClickSoundPlaying.value = false;
   } else {
     // If the sound is not playing, start it
-    buttonClickAudio.currentTime = 0 // Reset the audio to the beginning
-    buttonClickAudio.loop = true
-    buttonClickAudio.play()
-    isButtonClickSoundPlaying.value = true
+    buttonClickAudio.currentTime = 0; // Reset the audio to the beginning
+    buttonClickAudio.loop = true;
+    buttonClickAudio.play();
+    isButtonClickSoundPlaying.value = true;
   }
-}
-
-//volume control section
-const volume = ref(0.5) // Initial volume level (adjust as needed)
+};
+const volume = ref(0.5); // Initial volume level (adjust as needed)
 
 const setVolume = (newVolume) => {
   if (newVolume >= 0 && newVolume <= 1) {
-    volume.value = newVolume
+    volume.value = newVolume;
   }
-  // You can also update the volume level for other audio sources if needed
-  // For example, if you're using the buttonClickAudio for the metronome
-  buttonClickAudio.volume = volume.value
-}
+  buttonClickAudio.volume = volume.value;
+};
 //Toggle mode
-const isActive = ref(false)
-
+const isActive = ref(false);
 const toggle = () => {
-  isActive.value = !isActive.value
-  theKey.value = []
-}
+  isActive.value = !isActive.value;
+  theKey.value = [];
+};
+//theme
 
-// Tutorials Song Test
-const mySong = ref([
-  'C2',
-  'D2',
-  'E2',
-  'D2',
-  'E2',
-  'F2',
-  'G2',
-  'E2',
-  'F2',
-  'G2',
-  'A2',
-  'G2',
-  'F2',
-  'E2',
-  'D2',
-  'C2',
-  'C3',
-  'D3',
-  'E3',
-  'D3',
-  'E3',
-  'F3',
-  'G3',
-  'E3',
-  'F3',
-  'G3',
-  'A3',
-  'G3',
-  'F3',
-  'E3',
-  'D3',
-  'C3',
-  'C4',
-  'D4',
-  'E4',
-  'D4',
-  'E4',
-  'F4',
-  'G4',
-  'E4',
-  'F4',
-  'G4',
-  'A4',
-  'G4',
-  'F4',
-  'E4',
-  'D4',
-  'C4',
-])
-const songIndex = ref(0)
-const songMessage = ref(`Press ${mySong.value[0]}`)
+const popupOpen = ref(false);
+const selectedTheme = ref(localStorage.getItem("background"));
+const videoSource = computed(() => {
+  return `./src/assets/theme-${selectedTheme.value}.mp4`;
+});
 
-const checkSong = (key) => {
-  if (key === mySong.value[songIndex.value]) {
-    songIndex.value++
-    songMessage.value = `Press ${mySong.value[songIndex.value]}`
+const togglePopup = () => {
+  popupOpen.value = !popupOpen.value;
+};
+
+const closePopup = () => {
+  popupOpen.value = false;
+};
+
+const selectTheme = (themeNumber) => {
+  try {
+    selectedTheme.value = themeNumber;
+    localStorage.setItem("background", themeNumber);
+    location.reload();
+    console.log(videoSource.value);
+    console.log("Theme change successful:", `theme-${themeNumber}.mp4`);
+  } catch (error) {
+    console.error("Theme change failed:", error.message);
+  } finally {
+    closePopup();
   }
-}
+};
 
-/* ---------------- */
+// Watch for changes in selectedTheme and log the new value
+watch(selectedTheme, (newValue) => {
+  console.log("Selected theme changed:", newValue);
+});
 </script>
 <template>
   <div>
     <header id="header" class="w-full h-20">
       <div class="svg-image flex justify-center mt-6" v-html="SvgName"></div>
     </header>
+    <!-- background video -->
+    <div class="video-background">
+      <video autoplay muted loop>
+        <source :src="videoSource" type="video/mp4" />
+      </video>
+    </div>
+    <!-- SVG THEME -->
+    <div>
+      <button
+        @click="togglePopup"
+        class="fixed bottom-1 right-20 p-1.5 bg-white text-white rounded-full cursor-pointer hover:bg-slate-700"
+      >
+        <img
+          src="./components/icons/paint-brush.svg"
+          style="width: 20px; height: 20px"
+        />
+      </button>
+    </div>
+    <div
+      v-if="popupOpen"
+      style="z-index: 100"
+      class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
+    >
+      <div class="bg-white rounded-lg p-8 relative">
+        <div class="absolute top-2 right-2 cursor-pointer" @click="closePopup">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </div>
+        <div class="grid grid-cols-3 gap-4">
+          <img
+            src="@/assets/theme-1.png"
+            class="theme-option rounded-full cursor-pointer"
+            @click="selectTheme(1)"
+          />
+          <img
+            src="@/assets/theme-2.png"
+            class="theme-option rounded-full cursor-pointer"
+            @click="selectTheme(2)"
+          />
+          <img
+            src="@/assets/theme-3.png"
+            class="theme-option rounded-full cursor-pointer"
+            @click="selectTheme(3)"
+          />
+        </div>
+      </div>
+    </div>
 
-    <video autoplay muted loop class="video">
-      <source src="./assets/pastelsea.mp4" type="video/mp4" />
-      <source src="./assets/pastelsea.mp4" type="video/webm" />
-    </video>
+    <!-- ----------------- -->
+
     <section>
       <!-- UI for selecting oscillator type -->
       <div v-if="isActive" class="oscillator-mode mb-6 flex justify-center">
@@ -199,7 +229,7 @@ const checkSong = (key) => {
     </section>
     <!-- Note pressing showing -->
     <section>
-      <div class="flex justify-center text-center">
+      <div class="flex justify-center text-center" v-if="!showInfo">
         <div class="w-1.5/6 bg-white bg-opacity-10 mx-auto p-3">
           <span class="note">
             {{ theKey }}
@@ -209,7 +239,7 @@ const checkSong = (key) => {
     </section>
     <div>
       <!-- Switch piano section -->
-      <div class="flex items-center justify-center mt-3">
+      <div class="flex items-center justify-center mt-3" v-if="!showInfo">
         <span class="text-white" :class="{ active: isActive }"
           >Classic piano</span
         >
@@ -278,6 +308,7 @@ const checkSong = (key) => {
       id="piano"
       class="flex justify-center"
       @keyup="(event) => handleKeyUp(event, volume)"
+      @keydown="(event) => handlePianoKeyDown(event)"
       tabindex="0"
       v-if="!isActive && !showInfo"
     >
@@ -292,19 +323,12 @@ const checkSong = (key) => {
         class="rounded"
         @click="() => handleClick(note, volume)"
         @mouseup="checkKey(note)"
-        @mousedown="checkSong(note)"
       >
         {{ note }}
       </div>
     </section>
 
-    <!-- Tutorial Song Tection -->
-    <!-- <div class="text-center text-white mt-10">
-      <h2>Tutorial Song</h2>
-      <p>{{ songMessage }}</p>
-    </div> -->
-
-    <footer class="flex justify-center p-10">
+    <div class="flex justify-center p-10">
       <!-- Icon to toggle the visibility of the information section -->
       <i
         @click="toggleInfo"
@@ -368,38 +392,45 @@ const checkSong = (key) => {
           </li>
         </ol>
       </div>
-      <p
+      <footer
         class="font-l font-light text-white text-center fixed bottom-0 left-0 w-full"
       >
         @DAIISARA INT203 ClIENT SIDE II
-      </p>
-    </footer>
+      </footer>
+    </div>
   </div>
 </template>
 <style scoped>
-@import './components/util.css';
+@import "./components/util.css";
+
 div {
-  font-family: 'Protest Riot', sans-serif;
+  font-family: "Protest Riot", sans-serif;
 }
+
 .trap-key {
   width: 4.5vw;
   height: 30vh;
   display: inline-block;
   text-align: center;
-  line-height: 30vh; /* Center vertically */
+  line-height: 30vh;
+  /* Center vertically */
   cursor: pointer;
   user-select: none;
   background-color: #ffff;
   color: gray;
-  font-size: 1vw; /* Responsive font size */
+  font-size: 1vw;
+  /* Responsive font size */
   border: 1px solid #00000046;
   border-radius: 8px;
-  margin: 0 auto; /* Center horizontally */
+  margin: 0 auto;
+  /* Center horizontally */
 }
+
 .piano-key:active {
   background-color: #ddd;
   border: 2px solid gray;
 }
+
 .piano-key {
   width: 4.5dvw;
   height: 30dvh;
@@ -410,11 +441,13 @@ div {
   user-select: none;
   background-color: #ffff;
   color: gray;
-  font-size: 1vw; /* Responsive font size */
+  font-size: 1vw;
+  /* Responsive font size */
   border: 1px solid #00000046;
   border-radius: 8px;
   color: #ffff;
 }
+
 .black-key {
   width: 2.5vw;
   z-index: 2;
@@ -425,9 +458,11 @@ div {
   border-radius: 0 0 5px 5px;
   background-color: #363636;
 }
+
 .piano-key:hover {
   background-color: lightgray;
 }
+
 .trap-section {
   /* Adjust as needed */
   padding: 20px;
@@ -442,6 +477,7 @@ div {
 .oscillator-mode {
   margin-bottom: 20px;
 }
+
 .toggle-button {
   width: 50px;
   height: 25px;
@@ -470,34 +506,3 @@ div {
   transform: translateX(25px);
 }
 </style>
-
-<!-- .trap-key {
-  width: calc(100% / 6); /* Adjust the number of keys per row */
-  max-width: 100px; /* Adjust as needed */
-  height: 100px; /* Adjust as needed */
-  display: inline-block;
-  text-align: center;
-  line-height: 100px; /* Adjust as needed */
-  cursor: pointer;
-  margin: 10px; /* Adjust as needed */
-  user-select: none;
-  color: #ffff;
-  font-family: 'Protest Riot', sans-serif;
-}
-@media (max-width: 768px) {
-  .trap-key {
-    width: calc(100% / 4); /* Adjust the number of keys per row */
-    max-width: 80px; /* Adjust as needed */
-    height: 80px; /* Adjust as needed */
-    line-height: 80px; /* Adjust as needed */
-  }
-}
-
-@media (max-width: 480px) {
-  .trap-key {
-    width: calc(100% / 3); /* Adjust the number of keys per row */
-    max-width: 60px; /* Adjust as needed */
-    height: 60px; /* Adjust as needed */
-    line-height: 60px; /* Adjust as needed */
-  }
-} -->

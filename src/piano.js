@@ -1,65 +1,65 @@
 export const keyBindings = {
-  Z: 'C2',
-  X: 'Db2',
-  C: 'D2',
-  V: 'Eb2',
-  B: 'E2',
-  N: 'F2',
-  M: 'Gb2',
-  ',': 'G2',
-  '.': 'Ab2',
-  '/': 'A2',
-  Q: 'Bb2',
-  W: 'B2',
-  E: 'C3',
-  R: 'Db3',
-  T: 'D3',
-  Y: 'Eb3',
-  U: 'E3',
-  I: 'F3',
-  O: 'Gb3',
-  P: 'G3',
-  '[': 'Ab3',
-  ']': 'A3',
-  A: 'Bb3',
-  S: 'B3',
-  D: 'C4'
-}
+  Z: "C2",
+  X: "Db2",
+  C: "D2",
+  V: "Eb2",
+  B: "E2",
+  N: "F2",
+  M: "Gb2",
+  ",": "G2",
+  ".": "Ab2",
+  "/": "A2",
+  Q: "Bb2",
+  W: "B2",
+  E: "C3",
+  R: "Db3",
+  T: "D3",
+  Y: "Eb3",
+  U: "E3",
+  I: "F3",
+  O: "Gb3",
+  P: "G3",
+  "[": "Ab3",
+  "]": "A3",
+  A: "Bb3",
+  S: "B3",
+  D: "C4",
+};
 
 export const isBlackKey = (note) => {
-  const blackKeys = ['Db', 'Eb', 'Gb', 'Ab', 'Bb']
-  return blackKeys.includes(note.substring(0, 2))
-}
+  const blackKeys = ["Db", "Eb", "Gb", "Ab", "Bb"];
+  return blackKeys.includes(note.substring(0, 2));
+};
 
 export const getAudioPath = (note) => {
-  const path = `./src/piano-mp3/${note}.mp3`
-  console.log('Audio Path:', path)
-  return path
-}
+  const path = `./src/piano-mp3/${note}.mp3`;
+  console.log("Audio Path:", path);
+  return path;
+};
 
-export const playSound = (note, volume, duration = 550) => {
-  const audioPath = getAudioPath(note)
+export const playSound = (note, volume, duration = 1000) => {
+  const audioPath = getAudioPath(note);
   try {
-    const audio = new Audio(audioPath)
-    audio.volume = volume // Set the volume
-    audio.play()
+    const audio = new Audio(audioPath);
+    audio.volume = volume; // Set the volume
+    audio.play();
 
     // Stop the sound after the specified duration
     setTimeout(() => {
-      audio.pause()
-    }, duration)
+      audio.pause();
+    }, duration);
   } catch (error) {
-    console.error('Error playing audio:', error)
+    console.error("Error playing audio:", error);
   }
-}
+};
 
 export const handleKeyUp = (event, volume) => {
-  const key = event.key.toUpperCase()
+  const key = event.key.toUpperCase();
   if (keyBindings[key]) {
-    playSound(keyBindings[key], volume)
+    playSound(keyBindings[key], volume);
   }
-}
+};
 
 export const handleClick = (note, volume) => {
-  playSound(note, volume)
-}
+  playSound(note, volume);
+};
