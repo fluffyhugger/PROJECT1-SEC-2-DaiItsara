@@ -55,10 +55,7 @@ This interactive web application combines the timeless beauty of Korean piano wi
 ## Contributor:
 | Name                          | StudentID         | Github          | Contributions                                      |
 | ----------------------------- | ----------------- | --------------- | -------------------------------------------------- |
-| Sirakran Kranjanawilasgul     | 65130500079       | Chocolaz        | <ul>
-  <li>Piano Volume Controls</li>
-  <li>Metronome, Metronome & BPM Switching</li>
-  <li>Document And Requirement Instruction</li> </ul> |
+| Sirakran Kranjanawilasgul     | 65130500079       | Chocolaz        | Piano Volume Controls, Metronome & BPM Switching, Document & Requirement Instruction |
 | Sirapob Wuthithein            | 65130500085       | fluffyhugger    | Visual Pressed Keys, Code Debugger, User Interface |
 | Aismat Boonmalert             | 65130500091       | mattiiee        | Electronic Piano Keyboard, Electric Paino Volume Controls, Customize Oscillator Type |
 | Nisarat Aunrueanngam          | 65130500107       | Nisarat-A       | Classic Piano Keyboard, Switch Background themes, Audio Theme Background |
