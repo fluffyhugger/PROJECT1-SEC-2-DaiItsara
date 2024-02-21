@@ -55,21 +55,27 @@ This interactive web application combines the timeless beauty of Korean piano wi
 ## Contributor:
 | Name                          | StudentID         | Github          | Contributions                                      |
 | ----------------------------- | ----------------- | --------------- | -------------------------------------------------- |
-| Sirakran Kranjanawilasgul     | 65130500079       | Chocolaz        | - Piano Volume Controls
-                                                                        - Metronome & BPM Switching
-                                                                        - Document And Requirement Instruction                                    |
-| Sirapob Wuthithein            | 65130500085       | fluffyhugger    | - Visual Pressed Keys
-                                                                        - Code Debugger
-                                                                        - User Interface                                     |
-| Aismat Boonmalert             | 65130500091       | mattiiee        | - Electronic Piano Keyboard 
-                                                                        - Electric Paino Volume Controls
-                                                                        - Customize Oscillator Type                           |
-| Nisarat Aunrueanngam          | 65130500107       | Nisarat-A       | - Classic Piano Keyboard
-                                                                        - Switch Background themes
-                                                                        - Audio Theme Background                              |
-| Threepoom Ngamsirisomsakul    | 65130500122       | Threepoom       | - Electronic piano keyboard 
-                                                                        - Mode Switching
-                                                                        - Information Instructions Tutorial                   |
+| Sirakran Kranjanawilasgul     | 65130500079       | Chocolaz        | 
+  - Piano Volume Controls
+  - Metronome & BPM Switching
+  - Document And Requirement Instruction                |
+| Sirapob Wuthithein            | 65130500085       | fluffyhugger    | 
+  - Visual Pressed Keys
+  - Code Debugger
+  - User Interface                                     |
+| Aismat Boonmalert             | 65130500091       | mattiiee        | 
+  - Electronic Piano Keyboard 
+  - Electric Paino Volume Controls
+  - Customize Oscillator Type                           |
+| Nisarat Aunrueanngam          | 65130500107       | Nisarat-A       | 
+  - Classic Piano Keyboard
+  - Switch Background themes
+  - Audio Theme Background                              |
+| Threepoom Ngamsirisomsakul    | 65130500122       | Threepoom       | 
+  - Electronic piano keyboard 
+  - Mode Switching
+  - Information Instructions Tutorial                   |
+
 
 
 
