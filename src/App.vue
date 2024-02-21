@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed , onBeforeMount } from 'vue'
 import * as piano from './piano.js'
 import * as trap from './trap.js'
 import SvgName from './components/icons/svgname.svg?raw'
@@ -140,6 +140,12 @@ const selectTheme = (themeNumber) => {
 watch(selectedTheme, (newValue) => {
   console.log('Selected theme changed:', newValue)
 })
+onBeforeMount(() => {
+  if (localStorage.getItem("background") === null) {
+    localStorage.setItem("background", 1);
+    location.reload();
+  }
+});
 </script>
 <template>
   <div>
