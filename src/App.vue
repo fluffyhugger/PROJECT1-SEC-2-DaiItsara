@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed , onBeforeMount } from 'vue'
+import { ref, watch, computed, onBeforeMount } from 'vue'
 import * as piano from './piano.js'
 import * as trap from './trap.js'
 import SvgName from './components/icons/svgname.svg?raw'
@@ -169,54 +169,23 @@ const setTrapVolume = (newVolume) => {
     </div>
     <!-- SVG THEME -->
     <div>
-      <button
-        @click="togglePopup"
-        class="fixed bottom-1 right-20 p-1.5 bg-white text-white rounded-full cursor-pointer hover:bg-slate-700"
-      >
-        <img
-          src="./components/icons/paint-brush.svg"
-          style="width: 20px; height: 20px"
-        />
+      <button @click="togglePopup"
+        class="fixed bottom-1 right-20 p-1.5 bg-white text-white rounded-full cursor-pointer hover:bg-slate-700">
+        <img src="./components/icons/paint-brush.svg" style="width: 20px; height: 20px" />
       </button>
     </div>
-    <div
-      v-if="popupOpen"
-      style="z-index: 100"
-      class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50"
-    >
+    <div v-if="popupOpen" style="z-index: 100"
+      class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div class="bg-white rounded-lg p-8 relative">
         <div class="absolute top-2 right-2 cursor-pointer" @click="closePopup">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </div>
         <div class="grid grid-cols-3 gap-4">
-          <img
-            src="./assets/theme-1.png"
-            class="theme-option rounded-full cursor-pointer"
-            @click="selectTheme(1)"
-          />
-          <img
-            src="./assets/theme-2.png"
-            class="theme-option rounded-full cursor-pointer"
-            @click="selectTheme(2)"
-          />
-          <img
-            src="./assets/theme-3.png"
-            class="theme-option rounded-full cursor-pointer"
-            @click="selectTheme(3)"
-          />
+          <img src="./assets/theme-1.png" class="theme-option rounded-full cursor-pointer" @click="selectTheme(1)" />
+          <img src="./assets/theme-2.png" class="theme-option rounded-full cursor-pointer" @click="selectTheme(2)" />
+          <img src="./assets/theme-3.png" class="theme-option rounded-full cursor-pointer" @click="selectTheme(3)" />
         </div>
       </div>
     </div>
@@ -226,14 +195,9 @@ const setTrapVolume = (newVolume) => {
     <section>
       <!-- UI for selecting oscillator type -->
       <div v-if="isActive" class="oscillator-mode mb-6 flex justify-center">
-        <label for="oscillator-type" class="text-white"
-          >Select Oscillator Type:</label
-        >
-        <select
-          v-model="selectedOscillatorType"
-          @change="changeOscillatorType"
-          class="ml-2 rounded-md bg-white bg-opacity-10 text-white"
-        >
+        <label for="oscillator-type" class="text-white">Select Oscillator Type:</label>
+        <select v-model="selectedOscillatorType" @change="changeOscillatorType"
+          class="ml-2 rounded-md bg-white bg-opacity-10 text-white">
           <option value="sine">Sine</option>
           <option value="square">Square</option>
           <option value="sawtooth">Sawtooth</option>
@@ -254,14 +218,8 @@ const setTrapVolume = (newVolume) => {
     <div>
       <!-- Switch piano section -->
       <div class="flex items-center justify-center mt-3" v-if="!showInfo">
-        <span class="text-white" :class="{ active: isActive }"
-          >Classic piano</span
-        >
-        <div
-          class="toggle-button"
-          :class="{ active: isActive }"
-          @click="toggle"
-        >
+        <span class="text-white" :class="{ active: isActive }">Classic piano</span>
+        <div class="toggle-button" :class="{ active: isActive }" @click="toggle">
           <div class="toggle-circle"></div>
         </div>
 
@@ -269,66 +227,33 @@ const setTrapVolume = (newVolume) => {
         <!-- Piano Volume Control Input-->
         <span class="ml-5" v-if="!isActive && !showInfo">
           <span class="flex justify-center text-white">
-            Volume: {{ volume }}</span
-          >
+            Volume: {{ volume }}</span>
           <div class="volume-control ml-2 mb-3">
-            <input
-              id="volume-slider"
-              type="range"
-              min="0"
-              max="1"
-              step="0.1"
-              v-model="volume"
-              @input="setVolume(volume)"
-              class="p-2 rounded-md bg-gray-800 text-white"
-            />
+            <input id="volume-slider" type="range" min="0" max="1" step="0.1" v-model="volume" @input="setVolume(volume)"
+              class="p-2 rounded-md bg-gray-800 text-white" />
           </div>
         </span>
         <!-- Oscillator Volume Control Input-->
         <span class="ml-5" v-if="isActive && !showInfo">
           <span class="flex justify-center text-white">
-            Volume: {{ trapVolume }}</span
-          >
+            Volume: {{ trapVolume }}</span>
           <div class="volume-control ml-2 mb-3">
-            <input
-              id="volume-slider"
-              type="range"
-              min="0"
-              max="1"
-              step="0.1"
-              v-model="trapVolume"
-              @input="setTrapVolume(trapVolume)"
-              class="p-2 rounded-md bg-gray-800 text-white"
-            />
+            <input id="volume-slider" type="range" min="0" max="1" step="0.1" v-model="trapVolume"
+              @input="setTrapVolume(trapVolume)" class="p-2 rounded-md bg-gray-800 text-white" />
           </div>
         </span>
       </div>
     </div>
 
     <!-- Trap Section -->
-    <section
-      v-show="isActive"
-      id="trap"
-      class="trap-section flex justify-center"
-      v-if="!showInfo"
-      @keydown="handleTrapKeyDown"
-      @keyup="handleTrapKeyUp"
-      tabindex="0"
-    >
+    <section v-show="isActive" id="trap" class="trap-section flex justify-center" v-if="!showInfo"
+      @keydown="handleTrapKeyDown" @keyup="handleTrapKeyUp" tabindex="0">
       <div class="flex justify-center">
         <div class="trap-container">
-          <div
-            v-for="trap in TrapKeys"
-            :key="trap"
-            @click="checkKey(trap)"
-            @mousedown="handleTrapMouseDown(trap)"
-            @mouseup="stopSound"
-            :style="{ backgroundColor: getNoteColor(trap) }"
-            :class="{
+          <div v-for="trap in TrapKeys" :key="trap" @click="checkKey(trap)" @mousedown="handleTrapMouseDown(trap)"
+            @mouseup="stopSound" :style="{ backgroundColor: getNoteColor(trap) }" :class="{
               'trap-key': true,
-            }"
-            tabindex="0"
-          >
+            }" tabindex="0">
             <!-- Add tabindex to make the div focus on keyboard events -->
             {{ trap }}
           </div>
@@ -336,71 +261,36 @@ const setTrapVolume = (newVolume) => {
       </div>
     </section>
     <!-- Piano Section -->
-    <section
-      id="piano"
-      class="flex justify-center"
-      @keyup="(event) => handleKeyUp(event, volume)"
-      @keydown="(event) => handlePianoKeyDown(event)"
-      tabindex="0"
-      v-if="!isActive && !showInfo"
-    >
-      <div
-        v-for="(note, key) in keyBindings"
-        :key="key"
-        :class="{
-          'piano-key': true,
-          'black-key': isBlackKey(note),
-        }"
-        :data-note="note"
-        class="rounded"
-        @click="() => handleClick(note, volume)"
-        @mouseup="checkKey(note)"
-      >
+    <section id="piano" class="flex justify-center" @keyup="(event) => handleKeyUp(event, volume)"
+      @keydown="(event) => handlePianoKeyDown(event)" tabindex="0" v-if="!isActive && !showInfo">
+      <div v-for="(note, key) in keyBindings" :key="key" :class="{
+        'piano-key': true,
+        'black-key': isBlackKey(note),
+      }" :data-note="note" class="rounded" @click="() => handleClick(note, volume)" @mouseup="checkKey(note)">
         {{ note }}
       </div>
     </section>
 
     <div class="flex justify-center p-10">
       <!-- Icon to toggle the visibility of the information section -->
-      <i
-        @click="toggleInfo"
-        class="fa-solid fa-circle-info fixed bottom-3 right-0 fa-2xl m-2 cursor-pointer text-white hover:text-gray-700"
-      ></i>
+      <i @click="toggleInfo"
+        class="fa-solid fa-circle-info fixed bottom-3 right-0 fa-2xl m-2 cursor-pointer text-white hover:text-gray-700"></i>
 
       <!-- Metro Section-->
       <div>
-        <button
-          @click="toggleMetronome"
-          class="fixed bottom-1 right-11 p-1.5 bg-white text-white rounded-full cursor-pointer hover:bg-slate-700"
-        >
-          <img
-            v-if="!isButtonClickSoundPlaying"
-            src="./components/icons/metronome.svg"
-            alt="Start Metronome"
-            style="width: 20px; height: 20px"
-          />
-          <img
-            v-else
-            src="./components/icons/metronome.svg"
-            alt="Stop Metronome"
-            style="width: 20px; height: 20px"
-          />
+        <button @click="toggleMetronome"
+          class="fixed bottom-1 right-11 p-1.5 bg-white text-white rounded-full cursor-pointer hover:bg-slate-700">
+          <img v-if="!isButtonClickSoundPlaying" src="./components/icons/metronome.svg" alt="Start Metronome"
+            style="width: 20px; height: 20px" />
+          <img v-else src="./components/icons/metronome.svg" alt="Stop Metronome" style="width: 20px; height: 20px" />
         </button>
       </div>
       <!-- Information section -->
-      <div
-        v-if="showInfo"
-        class="relative max-w-xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg"
-      >
+      <div v-if="showInfo" class="relative max-w-xl mx-auto mt-8 p-6 bg-white shadow-lg rounded-lg">
         <!-- Cross icon to close the information section -->
-        <i
-          @click="toggleInfo"
-          class="fa-solid fa-times-circle absolute top-2 right-2 cursor-pointer text-gray-500 hover:text-gray-700"
-        ></i>
-        <h1
-          class="text-3xl font-semibold mb-4 text-red-400"
-          style="font-family: 'Roboto', sans-serif"
-        >
+        <i @click="toggleInfo"
+          class="fa-solid fa-times-circle absolute top-2 right-2 cursor-pointer text-gray-500 hover:text-gray-700"></i>
+        <h1 class="text-3xl font-semibold mb-4 text-red-400" style="font-family: 'Roboto', sans-serif">
           How to Play Piano
         </h1>
         <p class="text-gray-700" style="font-family: 'Roboto', sans-serif"></p>
@@ -424,9 +314,7 @@ const setTrapVolume = (newVolume) => {
           </li>
         </ol>
       </div>
-      <footer
-        class="font-l font-light text-white text-center fixed bottom-0 left-0 w-full"
-      >
+      <footer class="font-l font-light text-white text-center fixed bottom-0 left-0 w-full">
         @DAIISARA INT203 ClIENT SIDE II
       </footer>
     </div>
@@ -435,28 +323,6 @@ const setTrapVolume = (newVolume) => {
 <style scoped>
 @import './components/util.css';
 
-div {
-  font-family: 'Protest Riot', sans-serif;
-}
-
-.trap-key {
-  width: 4.5vw;
-  height: 30vh;
-  display: inline-block;
-  text-align: center;
-  line-height: 30vh;
-  /* Center vertically */
-  cursor: pointer;
-  user-select: none;
-  background-color: #ffff;
-  color: gray;
-  font-size: 1vw;
-  /* Responsive font size */
-  border: 1px solid #00000046;
-  border-radius: 8px;
-  margin: 0 auto;
-  /* Center horizontally */
-}
 
 .piano-key:active {
   background-color: #ddd;
@@ -495,6 +361,25 @@ div {
   background-color: lightgray;
 }
 
+.trap-key {
+  width: 4.5vw;
+  height: 30vh;
+  display: inline-block;
+  text-align: center;
+  line-height: 30vh;
+  /* Center vertically */
+  cursor: pointer;
+  user-select: none;
+  background-color: #ffff;
+  color: gray;
+  font-size: 1vw;
+  /* Responsive font size */
+  border: 1px solid #00000046;
+  border-radius: 8px;
+  margin: 0 auto;
+  /* Center horizontally */
+}
+
 .trap-section {
   /* Adjust as needed */
   padding: 20px;
@@ -506,35 +391,5 @@ div {
   width: 100%;
 }
 
-.oscillator-mode {
-  margin-bottom: 20px;
-}
 
-.toggle-button {
-  width: 50px;
-  height: 25px;
-  background-color: orange;
-  border-radius: 25px;
-  position: relative;
-  cursor: pointer;
-}
-
-.toggle-circle {
-  width: 25px;
-  height: 25px;
-  background-color: #fff;
-  border-radius: 50%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: transform 0.3s ease;
-}
-
-.toggle-button.active {
-  background-color: #7bc043;
-}
-
-.toggle-button.active .toggle-circle {
-  transform: translateX(25px);
-}
 </style>
