@@ -1,146 +1,145 @@
-<
 <script setup>
-import { ref, watch, computed } from "vue";
-import * as piano from "./piano.js";
-import * as trap from "./trap.js";
-import SvgName from "./components/icons/svgname.svg?raw";
-import "@fortawesome/fontawesome-free/css/all.css";
-const theKey = ref([]);
+import { ref, watch, computed } from 'vue'
+import * as piano from './piano.js'
+import * as trap from './trap.js'
+import SvgName from './components/icons/svgname.svg?raw'
+import '@fortawesome/fontawesome-free/css/all.css'
+const theKey = ref([])
 const checkKey = function (key) {
   if (theKey.value.length < 36) {
-    theKey.value += (theKey.value.length > 0 ? ", " : "") + key;
+    theKey.value += (theKey.value.length > 0 ? ', ' : '') + key
   } else {
-    theKey.value = "";
+    theKey.value = ''
   }
-};
+}
 const TrapKeys = ref([
-  "C",
-  "Db",
-  "D",
-  "Eb",
-  "E",
-  "F",
-  "Gb",
-  "G",
-  "Ab",
-  "A",
-  "Bb",
-  "B",
-]);
-const { isBlackKey, keyBindings, handleKeyUp, handleClick } = piano;
-const { getNoteColor, playTrap, stopSound, trapKeyMap } = trap;
+  'C',
+  'Db',
+  'D',
+  'Eb',
+  'E',
+  'F',
+  'Gb',
+  'G',
+  'Ab',
+  'A',
+  'Bb',
+  'B',
+])
+const { isBlackKey, keyBindings, handleKeyUp, handleClick } = piano
+const { getNoteColor, playTrap, stopSound, trapKeyMap } = trap
 
 // Oscillator type
-const selectedOscillatorType = ref("sine"); //default value
+const selectedOscillatorType = ref('sine') //default value
 
 // change type
 const changeOscillatorType = () => {
-  trap.setOscillatorType(selectedOscillatorType.value);
-};
+  trap.setOscillatorType(selectedOscillatorType.value)
+}
 
 const handleTrapMouseDown = (trap) => {
-  playTrap(trap, selectedOscillatorType);
-};
+  playTrap(trap, selectedOscillatorType)
+}
 
 // piano Keydown
 const handlePianoKeyDown = (event) => {
-  const pressedKey = event.key.toUpperCase();
+  const pressedKey = event.key.toUpperCase()
 
   for (const key in keyBindings) {
     if (key === pressedKey) {
-      const note = keyBindings[key];
-      console.log(`Key ${pressedKey} pressed. Corresponding note: ${note}`);
-      checkKey(note);
-      break;
+      const note = keyBindings[key]
+      console.log(`Key ${pressedKey} pressed. Corresponding note: ${note}`)
+      checkKey(note)
+      break
     }
   }
-};
+}
 
 // binding trap to keyboard keys
 const handleTrapKeyDown = (event) => {
-  const key = event.key.toUpperCase();
+  const key = event.key.toUpperCase()
   if (trapKeyMap.hasOwnProperty(key)) {
-    const trapNote = trapKeyMap[key];
-    playTrap(trapNote, selectedOscillatorType);
-    checkKey(trapNote);
+    const trapNote = trapKeyMap[key]
+    playTrap(trapNote, selectedOscillatorType)
+    checkKey(trapNote)
   }
-};
+}
 
 const handleTrapKeyUp = () => {
-  stopSound();
-};
+  stopSound()
+}
 
 /* part how to play  */
-const showInfo = ref(false);
+const showInfo = ref(false)
 const toggleInfo = () => {
-  showInfo.value = !showInfo.value;
-};
+  showInfo.value = !showInfo.value
+}
 
 // Metronome section
-const isButtonClickSoundPlaying = ref(false);
-const buttonClickAudio = new Audio("/src/assets/metro.mp3");
+const isButtonClickSoundPlaying = ref(false)
+const buttonClickAudio = new Audio('./theme/metro.mp3')
 
 const toggleMetronome = () => {
   if (isButtonClickSoundPlaying.value) {
     // If the sound is currently playing, stop it
-    buttonClickAudio.pause();
-    isButtonClickSoundPlaying.value = false;
+    buttonClickAudio.pause()
+    isButtonClickSoundPlaying.value = false
   } else {
     // If the sound is not playing, start it
-    buttonClickAudio.currentTime = 0; // Reset the audio to the beginning
-    buttonClickAudio.loop = true;
-    buttonClickAudio.play();
-    isButtonClickSoundPlaying.value = true;
+    buttonClickAudio.currentTime = 0 // Reset the audio to the beginning
+    buttonClickAudio.loop = true
+    buttonClickAudio.play()
+    isButtonClickSoundPlaying.value = true
   }
-};
-const volume = ref(0.5); // Initial volume level (adjust as needed)
+}
+const volume = ref(0.5) // Initial volume level (adjust as needed)
 
 const setVolume = (newVolume) => {
   if (newVolume >= 0 && newVolume <= 1) {
-    volume.value = newVolume;
+    volume.value = newVolume
   }
-  buttonClickAudio.volume = volume.value;
-};
+  buttonClickAudio.volume = volume.value
+}
 //Toggle mode
-const isActive = ref(false);
+const isActive = ref(false)
 const toggle = () => {
-  isActive.value = !isActive.value;
-  theKey.value = [];
-};
+  isActive.value = !isActive.value
+  theKey.value = []
+}
 //theme
 
-const popupOpen = ref(false);
-const selectedTheme = ref(localStorage.getItem("background"));
+const popupOpen = ref(false)
+const selectedTheme = ref(localStorage.getItem('background'))
 const videoSource = computed(() => {
-  return `./src/assets/theme-${selectedTheme.value}.mp4`;
-});
+  return `./theme/theme-${selectedTheme.value}.mp4`
+})
 
 const togglePopup = () => {
-  popupOpen.value = !popupOpen.value;
-};
+  popupOpen.value = !popupOpen.value
+}
 
 const closePopup = () => {
-  popupOpen.value = false;
-};
+  popupOpen.value = false
+}
 
 const selectTheme = (themeNumber) => {
   try {
-    selectedTheme.value = themeNumber;
-    localStorage.setItem("background", themeNumber);
-    location.reload();
-    console.log(videoSource.value);
-    console.log("Theme change successful:", `theme-${themeNumber}.mp4`);
+    selectedTheme.value = themeNumber
+    localStorage.setItem('background', themeNumber)
+    location.reload()
+    console.log(videoSource.value)
+    console.log('Theme change successful:', `./theme/theme-${themeNumber}.mp4`)
   } catch (error) {
-    console.error("Theme change failed:", error.message);
+    console.error('Theme change failed:', error.message)
   } finally {
-    closePopup();
+    closePopup()
   }
-};
+}
 
 // Watch for changes in selectedTheme and log the new value
 watch(selectedTheme, (newValue) => {
-  console.log("Selected theme changed:", newValue);
-});
+  console.log('Selected theme changed:', newValue)
+})
 </script>
 <template>
   <div>
@@ -189,17 +188,17 @@ watch(selectedTheme, (newValue) => {
         </div>
         <div class="grid grid-cols-3 gap-4">
           <img
-            src="@/assets/theme-1.png"
+            src="./assets/theme-1.png"
             class="theme-option rounded-full cursor-pointer"
             @click="selectTheme(1)"
           />
           <img
-            src="@/assets/theme-2.png"
+            src="./assets/theme-2.png"
             class="theme-option rounded-full cursor-pointer"
             @click="selectTheme(2)"
           />
           <img
-            src="@/assets/theme-3.png"
+            src="./assets/theme-3.png"
             class="theme-option rounded-full cursor-pointer"
             @click="selectTheme(3)"
           />
@@ -401,10 +400,10 @@ watch(selectedTheme, (newValue) => {
   </div>
 </template>
 <style scoped>
-@import "./components/util.css";
+@import './components/util.css';
 
 div {
-  font-family: "Protest Riot", sans-serif;
+  font-family: 'Protest Riot', sans-serif;
 }
 
 .trap-key {
