@@ -41,6 +41,7 @@ const handleTrapMouseDown = (trap) => {
   playTrap(trap, selectedOscillatorType)
 }
 
+
 // piano Keydown
 const handlePianoKeyDown = (event) => {
   const pressedKey = event.key.toUpperCase()
@@ -312,7 +313,7 @@ const metroPopupOpen = ref(false)
 
     <section>
       <!-- UI for selecting oscillator type -->
-      <div v-if="isActive" class="oscillator-mode mb-6 flex justify-center">
+      <div v-if="isActive && !showInfo" class="oscillator-mode mb-6 flex justify-center">
         <label for="oscillator-type" class="text-white"
           >Select Oscillator Type:</label
         >
@@ -499,9 +500,12 @@ const metroPopupOpen = ref(false)
             online tutorials.
           </li>
           <li>
-            Gradually increase the difficulty of the pieces you play as you
-            improve.
+            Gradually increase the difficulty of the pieces you play as you improve.
           </li>
+          <li>Hot keys for piano: </li>
+            <img src="./components/icons/piano.png" alt="Piano hot keys" style="width: 1500px; height: 180px; ">
+            <li>Hot keys for Electronic piano: </li>
+            <img src="./components/icons/trap.png" alt="Trap hot keys" style="width: 1500px; height: 182px;">
         </ol>
       </div>
       <footer
