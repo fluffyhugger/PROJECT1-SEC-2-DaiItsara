@@ -348,9 +348,12 @@ const metroPopupOpen = ref(false);
             online tutorials.
           </li>
           <li>
-            Gradually increase the difficulty of the pieces you play as you
-            improve.
+            Gradually increase the difficulty of the pieces you play as you improve.
           </li>
+          <li>Hot keys for piano: </li>
+            <img src="./components/icons/piano.png" alt="Piano hot keys" style="width: 1500px; height: 180px; ">
+            <li>Hot keys for Electronic piano: </li>
+            <img src="./components/icons/trap.png" alt="Trap hot keys" style="width: 1500px; height: 182px;">
         </ol>
       </div>
       <footer class="font-l font-light text-white text-center fixed bottom-0 left-0 w-full">
