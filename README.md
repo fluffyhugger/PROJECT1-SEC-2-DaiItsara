@@ -41,7 +41,7 @@ This interactive web application combines the timeless beauty of Korean piano wi
 | Name                          | StudentID         | Github         |
 | ----------------------------- | ----------------- | -------------- |
 | Sirakran Kranjanawilasgul     | 65130500079       | Chocolaz       |
-| Sirapob Wutthitian            | 65130500085       | fluffyhugger   |
+| Sirapob Wuthithein            | 65130500085       | fluffyhugger   |
 | Aismat Boonmalert             | 65130500091       | Nisarat-A      |
 | Nisarat Aunrueanngam          | 65130500107       | Threepoom      |
 | Threepoom Ngamsirisomsakul    | 65130500122       | mattiee        |
