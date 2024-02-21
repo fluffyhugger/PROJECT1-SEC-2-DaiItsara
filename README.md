@@ -53,13 +53,78 @@ This interactive web application combines the timeless beauty of Korean piano wi
 
 
 ## Contributor:
-| Name                          | StudentID         | Github          | Contributions                                      |
-| ----------------------------- | ----------------- | --------------- | -------------------------------------------------- |
-| Sirakran Kranjanawilasgul     | 65130500079       | Chocolaz        | Piano Volume Controls, Metronome & BPM Switching, Document & Requirement Instruction |
-| Sirapob Wuthithein            | 65130500085       | fluffyhugger    | Visual Pressed Keys, Code Debugger, User Interface |
-| Aismat Boonmalert             | 65130500091       | mattiiee        | Electronic Piano Keyboard, Electric Paino Volume Controls, Customize Oscillator Type |
-| Nisarat Aunrueanngam          | 65130500107       | Nisarat-A       | Classic Piano Keyboard, Switch Background themes, Audio Theme Background |
-| Threepoom Ngamsirisomsakul    | 65130500122       | Threepoom       | Electronic piano keyboard, Mode Switching, Information Instructions Tutorial |     |
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>StudentID</th>
+      <th>Github</th>
+      <th>Contributions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sirakran Kranjanawilasgul</td>
+      <td>65130500079</td>
+      <td>Chocolaz</td>
+      <td>
+        <ul>
+          <li>Piano Volume Controls</li>
+          <li>Metronome & BPM Switching</li>
+          <li>Document And Requirement Instruction</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Sirapob Wuthithein</td>
+      <td>65130500085</td>
+      <td>fluffyhugger</td>
+      <td>
+        <ul>
+          <li>Visual Pressed Keys</li>
+          <li>Code Debugger</li>
+          <li>User Interface</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Aismat Boonmalert</td>
+      <td>65130500091</td>
+      <td>mattiiee</td>
+      <td>
+        <ul>
+          <li>Electronic Piano Keyboard</li>
+          <li>Electric Paino Volume Controls</li>
+          <li>Customize Oscillator Type</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Nisarat Aunrueanngam</td>
+      <td>65130500107</td>
+      <td>Nisarat-A</td>
+      <td>
+        <ul>
+          <li>Classic Piano Keyboard</li>
+          <li>Switch Background themes</li>
+          <li>Audio Theme Background</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>Threepoom Ngamsirisomsakul</td>
+      <td>65130500122</td>
+      <td>Threepoom</td>
+      <td>
+        <ul>
+          <li>Electronic piano keyboard</li>
+          <li>Mode Switching</li>
+          <li>Information Instructions Tutorial</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 
 
