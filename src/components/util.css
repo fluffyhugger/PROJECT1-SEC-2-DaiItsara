@@ -30,3 +30,39 @@
   min-height: 100%;
   object-fit: cover;
 }
+
+.toggle-button {
+  width: 50px;
+  height: 25px;
+  background-color: orange;
+  border-radius: 25px;
+  position: relative;
+  cursor: pointer;
+}
+
+.toggle-circle {
+  width: 25px;
+  height: 25px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.3s ease;
+}
+
+.toggle-button.active {
+  background-color: #7bc043;
+}
+
+.toggle-button.active .toggle-circle {
+  transform: translateX(25px);
+}
+
+div {
+  font-family: "Protest Riot", sans-serif;
+}
+
+.oscillator-mode {
+  margin-bottom: 20px;
+}

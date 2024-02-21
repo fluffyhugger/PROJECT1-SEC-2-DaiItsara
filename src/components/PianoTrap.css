@@ -1,0 +1,70 @@
+.piano-key:active {
+  background-color: #ddd;
+  border: 2px solid gray;
+}
+
+.piano-key {
+  width: 4.5dvw;
+  height: 30dvh;
+  display: inline-block;
+  text-align: center;
+  line-height: 500px;
+  cursor: pointer;
+  user-select: none;
+  background-color: #ffff;
+  color: gray;
+  font-size: 1vw;
+  /* Responsive font size */
+  border: 1px solid #00000046;
+  border-radius: 8px;
+  color: #000000;
+}
+
+.black-key {
+  color: white;
+}
+
+.black-key {
+  width: 2.5vw;
+  z-index: 2;
+  line-height: 20px;
+  margin: 0 -1.8vw 0 -1.8vw;
+  height: 15vh;
+  border: 1px solid #000;
+  border-radius: 0 0 5px 5px;
+  background-color: #363636;
+}
+
+.piano-key:hover {
+  background-color: lightgray;
+}
+
+.trap-key {
+  width: 4.5vw;
+  height: 30vh;
+  display: inline-block;
+  text-align: center;
+  line-height: 30vh;
+  /* Center vertically */
+  cursor: pointer;
+  user-select: none;
+  background-color: #ffff;
+  color: gray;
+  font-size: 1vw;
+  /* Responsive font size */
+  border: 1px solid #00000046;
+  border-radius: 8px;
+  margin: 0 auto;
+  /* Center horizontally */
+}
+
+.trap-section {
+  /* Adjust as needed */
+  padding: 20px;
+}
+
+.trap-container {
+  /* Adjust as needed */
+  max-width: 1200px;
+  width: 100%;
+}
