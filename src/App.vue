@@ -78,20 +78,48 @@ const toggleInfo = () => {
 // Metronome section
 const isButtonClickSoundPlaying = ref(false)
 const buttonClickAudio = new Audio('./theme/metro.mp3')
-
+const buttonClickAudioFast = new Audio('./theme/fastMetro.mp3')
+const buttonClickAudioMedium = new Audio('./theme/mediumMetronome.mp3')
 const toggleMetronome = () => {
+  togglePopup(); 
   if (isButtonClickSoundPlaying.value) {
-    // If the sound is currently playing, stop it
-    buttonClickAudio.pause()
-    isButtonClickSoundPlaying.value = false
+    stopAllMetronomeSounds();
   } else {
-    // If the sound is not playing, start it
-    buttonClickAudio.currentTime = 0 // Reset the audio to the beginning
-    buttonClickAudio.loop = true
-    buttonClickAudio.play()
-    isButtonClickSoundPlaying.value = true
+    startMetronomeSound(buttonClickAudio);
   }
-}
+};
+
+const toggleMetronomeMedium = () => {
+  togglePopup();
+  if (isButtonClickSoundPlaying.value) {
+    stopAllMetronomeSounds();
+  } else {
+    startMetronomeSound(buttonClickAudioMedium);
+  }
+};
+
+const toggleMetronomeFast = () => {
+  togglePopup(); 
+  if (isButtonClickSoundPlaying.value) {
+    stopAllMetronomeSounds();
+  } else {
+    startMetronomeSound(buttonClickAudioFast);
+  }
+};
+
+const startMetronomeSound = (audio) => {
+  audio.currentTime = 0;
+  audio.loop = true;
+  audio.play();
+  isButtonClickSoundPlaying.value = true;
+};
+
+const stopAllMetronomeSounds = () => {
+  buttonClickAudio.pause();
+  buttonClickAudioMedium.pause();
+  buttonClickAudioFast.pause();
+  isButtonClickSoundPlaying.value = false;
+};
 const volume = ref(0.5) // Initial volume level (adjust as needed)
 
 const setVolume = (newVolume) => {
@@ -154,6 +182,16 @@ const trapVolume = ref(0.5) // Initial volume level
 const setTrapVolume = (newVolume) => {
   trap.setTrapVolume(newVolume)
 }
+
+const toggleMetroPopup = () => {
+  metroPopupOpen.value = !metroPopupOpen.value
+}
+ 
+const toggleMetroclosePopup = () => {
+  metroPopupOpen.value = false
+}
+const metroPopupOpen = ref(false)
+
 
 </script>
 <template>
@@ -220,7 +258,56 @@ const setTrapVolume = (newVolume) => {
         </div>
       </div>
     </div>
-
+<!-- Metro PopUp -->
+<div
+      v-if="metroPopupOpen"
+      style="z-index: 100"
+      class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50"
+    >
+      <div class="bg-white rounded-lg p-8 relative">
+        <div
+          class="absolute top-2 right-2 cursor-pointer"
+          @click="toggleMetroclosePopup"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </div>
+        <!-- Select bpm speed -->
+        <div class="grid grid-cols-3 gap-4">
+    
+          <div
+            @click="toggleMetronome"
+            class="theme-option rounded-full cursor-pointer text-black bg-gray-300 bg-opacity-80 hover:bg-gray-500 text-center leading-10"
+          >
+            60 bpm
+          </div>
+          <div
+            @click="toggleMetronomeMedium"
+            class="theme-option rounded-full cursor-pointer text-black bg-gray-300 bg-opacity-80 hover:bg-gray-500 text-center leading-10"
+          >
+            80 bpm
+          </div>
+          <div
+            @click="toggleMetronomeFast"
+            class="theme-option rounded-full cursor-pointer text-black bg-gray-300 bg-opacity-80 hover:bg-gray-500 text-center leading-10"
+          >
+            100 bpm
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- ----------------- -->
 
     <section>
@@ -279,7 +366,7 @@ const setTrapVolume = (newVolume) => {
               max="1"
               step="0.1"
               v-model="volume"
-              @input="setVolume(volume)"
+              @input="setVolume(volume)" 
               class="p-2 rounded-md bg-gray-800 text-white"
             />
           </div>
@@ -366,23 +453,16 @@ const setTrapVolume = (newVolume) => {
         @click="toggleInfo"
         class="fa-solid fa-circle-info fixed bottom-3 right-0 fa-2xl m-2 cursor-pointer text-white hover:text-gray-700"
       ></i>
-
+ 
       <!-- Metro Section-->
       <div>
         <button
-          @click="toggleMetronome"
+          @click="toggleMetroPopup"
           class="fixed bottom-1 right-11 p-1.5 bg-white text-white rounded-full cursor-pointer hover:bg-slate-700"
         >
           <img
-            v-if="!isButtonClickSoundPlaying"
             src="./components/icons/metronome.svg"
             alt="Start Metronome"
-            style="width: 20px; height: 20px"
-          />
-          <img
-            v-else
-            src="./components/icons/metronome.svg"
-            alt="Stop Metronome"
             style="width: 20px; height: 20px"
           />
         </button>
@@ -431,6 +511,9 @@ const setTrapVolume = (newVolume) => {
       </footer>
     </div>
   </div>
+
+
+  
 </template>
 <style scoped>
 @import './components/util.css';
@@ -477,7 +560,10 @@ div {
   /* Responsive font size */
   border: 1px solid #00000046;
   border-radius: 8px;
-  color: #ffff;
+  color: #000000;
+}
+.black-key{
+  color: white;
 }
 
 .black-key {
@@ -513,7 +599,7 @@ div {
 .toggle-button {
   width: 50px;
   height: 25px;
-  background-color: orange;
+  background-color: rgba(119, 136, 153, 0.404) ;
   border-radius: 25px;
   position: relative;
   cursor: pointer;
@@ -531,7 +617,7 @@ div {
 }
 
 .toggle-button.active {
-  background-color: #7bc043;
+  background-color: #25252573;
 }
 
 .toggle-button.active .toggle-circle {

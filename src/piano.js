@@ -37,7 +37,7 @@ export const getAudioPath = (note) => {
   return path
 }
 
-export const playSound = (note, volume, duration = 1000) => {
+export const playSound = (note, volume, duration = 900) => {
   const audioPath = getAudioPath(note)
   try {
     const audio = new Audio(audioPath)
