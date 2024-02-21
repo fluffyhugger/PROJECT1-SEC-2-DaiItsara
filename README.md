@@ -35,6 +35,8 @@ This interactive web application combines the timeless beauty of Korean piano wi
 8. **Metronome:**
    - Includes a button to start/stop a metronome for practicing with the rhythm.
 
+<img src="./materials/figma/demo.png"/>
+
 ## Contributor:
 | Name                          | StudentID         | Github         |
 | ----------------------------- | ----------------- | -------------- |
@@ -43,4 +45,5 @@ This interactive web application combines the timeless beauty of Korean piano wi
 | Aismat Boonmalert             | 65130500091       | Nisarat-A      |
 | Nisarat Aunrueanngam          | 65130500107       | Threepoom      |
 | Threepoom Ngamsirisomsakul    | 65130500122       | mattiee        |
+
 
