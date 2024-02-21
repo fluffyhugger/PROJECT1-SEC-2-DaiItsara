@@ -7,7 +7,9 @@ import SvgName from "./components/icons/svgname.svg?raw";
 import "@fortawesome/fontawesome-free/css/all.css";
 const { isBlackKey, keyBindings, handleKeyUp, handleClick, handlePianoKeyDown } = piano;
 const { getNoteColor, playTrap, stopSound, trapKeyMap } = trap;
-const { theKey, checkKey, isActive, toggle } = util;
+const {  checkKey ,  toggle } = util;
+const theKey = ref([]);
+const isActive = ref(false);
 const TrapKeys = ref([
   "C",
   "Db",
@@ -109,6 +111,37 @@ const setVolume = (newVolume) => {
   }
   buttonClickAudio.volume = volume.value;
 };
+
+//theme
+
+const popupOpen = ref(false);
+const selectedTheme = ref(localStorage.getItem("background"));
+const videoSource = computed(() => {
+  return `./theme/theme-${selectedTheme.value}.mp4`;
+});
+
+const togglePopup = () => {
+  popupOpen.value = !popupOpen.value;
+};
+
+const closePopup = () => {
+  popupOpen.value = false;
+};
+
+const selectTheme = (themeNumber) => {
+  try {
+    selectedTheme.value = themeNumber;
+    localStorage.setItem("background", themeNumber);
+    location.reload();
+    console.log(videoSource.value);
+    console.log("Theme change successful:", `./theme/theme-${themeNumber}.mp4`);
+  } catch (error) {
+    console.error("Theme change failed:", error.message);
+  } finally {
+    closePopup();
+  }
+};
+
 // Watch for changes in selectedTheme and log the new value
 watch(selectedTheme, (newValue) => {
   console.log("Selected theme changed:", newValue);
@@ -119,6 +152,7 @@ onBeforeMount(() => {
     location.reload();
   }
 });
+
 // Define trapVolume ref to control the oscillator volume
 const trapVolume = ref(0.5); // Initial volume level
 
