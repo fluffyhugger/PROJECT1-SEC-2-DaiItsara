@@ -35,10 +35,9 @@ This interactive web application combines the timeless beauty of Korean piano wi
    - Includes a button to start/stop a metronome for practicing with the rhythm.
 
 <img src="./material/figma/demo.png"/>
-<video width="640" height="360" controls>
-  <source src="./material/figma/DemoProject.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+
+## Video demo:
+[Click Here](https://www.veed.io/view/2839e266-2ff5-4feb-aa97-f1e689899369?panel=share)
 
 
 ## Reference:
