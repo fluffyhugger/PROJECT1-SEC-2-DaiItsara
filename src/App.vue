@@ -320,7 +320,7 @@ const metroPopupOpen = ref(false)
         <select
           v-model="selectedOscillatorType"
           @change="changeOscillatorType"
-          class="ml-2 rounded-md bg-white bg-opacity-10 text-white"
+          class="ml-2 rounded-md bg-grey bg-opacity-10 text-white"
         >
           <option value="sine">Sine</option>
           <option value="square">Square</option>
@@ -544,7 +544,18 @@ div {
   margin: 0 auto;
   /* Center horizontally */
 }
+.trap-section {
+  padding: 20px;
+}
 
+.trap-container {
+  max-width: 1200px;
+  width: 100%;
+}
+.trap-key:active {
+  background-color: #ddd;
+  border: 2px solid rgb(255, 0, 0);
+}
 .piano-key:active {
   background-color: #ddd;
   border: 2px solid gray;
@@ -583,17 +594,6 @@ div {
 
 .piano-key:hover {
   background-color: lightgray;
-}
-
-.trap-section {
-  /* Adjust as needed */
-  padding: 20px;
-}
-
-.trap-container {
-  /* Adjust as needed */
-  max-width: 1200px;
-  width: 100%;
 }
 
 .oscillator-mode {
