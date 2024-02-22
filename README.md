@@ -35,10 +35,9 @@ This interactive web application combines the timeless beauty of Korean piano wi
    - Includes a button to start/stop a metronome for practicing with the rhythm.
 
 <img src="./material/figma/demo.png"/>
-**Video demo:**
-<video>
-<source src="DemoProject.mp4" type="video/mp4">
-</video><br>
+
+
+[Watch Demo Video](./material/DemoProject.mp4)
 ## Reference:
 
 1. **Vue.js Minimal Synth Example**
