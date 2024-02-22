@@ -21,8 +21,7 @@ This interactive web application combines the timeless beauty of Korean piano wi
    - Provides a toggle button to switch between classic piano and electronic piano modes.
    - Enables users to press the pop-up to switch between different background themes.
 
-5. **Classic Piano & Electronic Piano Audio Customization:**
-   - Classic Piano: Create a user experience with customizable piano sound options.
+5. **Electronic Piano Audio Customization:**
    - Electronic Piano: Offers a unique sound experience with customizable oscillator types.
 
 6. **Visual Feedback:**
@@ -60,6 +59,7 @@ This interactive web application combines the timeless beauty of Korean piano wi
       <th>StudentID</th>
       <th>Github</th>
       <th>Contributions</th>
+      <th>Percentage</th>
     </tr>
   </thead>
   <tbody>
@@ -74,6 +74,7 @@ This interactive web application combines the timeless beauty of Korean piano wi
           <li>Document And Requirement Instruction</li>
         </ul>
       </td>
+      <td>20%</td>
     </tr>
     <tr>
       <td>Sirapob Wuthithein</td>
@@ -86,6 +87,7 @@ This interactive web application combines the timeless beauty of Korean piano wi
           <li>User Interface</li>
         </ul>
       </td>
+      <td>20%</td>
     </tr>
     <tr>
       <td>Aismat Boonmalert</td>
@@ -98,6 +100,7 @@ This interactive web application combines the timeless beauty of Korean piano wi
           <li>Customize Oscillator Type</li>
         </ul>
       </td>
+      <td>20%</td>
     </tr>
     <tr>
       <td>Nisarat Aunrueanngam</td>
@@ -107,9 +110,10 @@ This interactive web application combines the timeless beauty of Korean piano wi
         <ul>
           <li>Classic Piano Keyboard</li>
           <li>Switch Background themes</li>
-          <li>Audio Theme Background</li>
+          <li>Code Refactor</li>
         </ul>
       </td>
+      <td>20%</td>
     </tr>
     <tr>
       <td>Threepoom Ngamsirisomsakul</td>
@@ -122,9 +126,13 @@ This interactive web application combines the timeless beauty of Korean piano wi
           <li>Information Instructions Tutorial</li>
         </ul>
       </td>
+      <td>20%</td>
     </tr>
   </tbody>
 </table>
+
+**Note that:** 
+Each team member contributes with the lead on specific features. Meanwhile, there is a collaborative effort across the team, where everyone actively supports each other by adding valuable contributions to each other features of the project.
 
 
 
