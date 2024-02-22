@@ -37,8 +37,8 @@ This interactive web application combines the timeless beauty of Korean piano wi
 <img src="./material/figma/demo.png"/>
 **Video demo:**
 <video>
-<source src="DemoProject.mp4" type="video/mp4" muted>
-</video>
+<source src="DemoProject.mp4" type="video/mp4">
+</video><br>
 ## Reference:
 
 1. **Vue.js Minimal Synth Example**
