@@ -131,6 +131,8 @@ This interactive web application combines the timeless beauty of Korean piano wi
   </tbody>
 </table>
 
+### Reamark that: 
+Each team member contributes with the lead on specific features. Meanwhile, there is a collaborative effort across the team, where everyone actively supports each other by adding valuable contributions to each other features of the project.
 
 
 
